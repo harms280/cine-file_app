@@ -3,6 +3,8 @@ var Movie = require('./movie');
 var bcrypt =require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 
+mongoose.set('debug', true);
+
 var userSchema = new mongoose.Schema({
   username: {type: String, 
     lowercase: true, 
@@ -11,8 +13,11 @@ var userSchema = new mongoose.Schema({
   },
   password: {type: String, required: true},
   friends: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    id: Number,
+    username: String,
+    requestAccepted: Boolean,
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'User'
   }],
   movieCollection: [{
     type: mongoose.Schema.Types.ObjectId,
