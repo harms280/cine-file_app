@@ -10,11 +10,11 @@ var routeHelpers = {
     }
   },
 
-  ensureCorrectUserForPost: function(req, res, next) {
-    db.Post.findById(req.params.id).populate('user').exec(function(err,post){
-      console.log(post);
-      if (post.user.id != req.session.id) {
-        res.redirect('/posts');
+  ensureCorrectUserForMovie: function(req, res, next) {
+    db.Movie.findById(req.params.id).populate('owner').exec(function(err,movie){
+      console.log(movie);
+      if (movie.owner.id != req.session.id) {
+        res.redirect('/movies'); //maybe pass in an error to the movies/:id/edit page???
       }
       else {
        return next();
@@ -36,7 +36,7 @@ var routeHelpers = {
 
   preventLoginSignup: function(req, res, next) {
     if (req.session.id !== null && req.session.id !== undefined) {
-      res.redirect('/posts');
+      res.redirect('/movies');
     }
     else {
      return next();

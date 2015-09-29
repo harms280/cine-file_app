@@ -13,7 +13,7 @@ var userSchema = new mongoose.Schema({
   },
   password: {type: String, required: true},
   friends: [{
-    id: Number,
+    id: String,
     username: String,
     requestAccepted: Boolean,
     // type: mongoose.Schema.Types.ObjectId,
@@ -22,6 +22,11 @@ var userSchema = new mongoose.Schema({
   movieCollection: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Movie'
+  }],
+  borrowing: [{
+    id: String,
+    username: String,
+    requestAccepted: Boolean,
   }],
   email: String,
   avatar: String, //upload images?

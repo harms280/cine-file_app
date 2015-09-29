@@ -16,16 +16,14 @@ var movieSchema = new mongoose.Schema({
   imdbPage: String,
   format: String, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
-  rented: Boolean,
   notes: String,
   dateAdded: Date,
   userRating: Number, //out of 10 stars? or 5 with .5 increments?
+  rented: String, //false, pending, or true
   rentalInfo: {
     rentalId: String, //combo of username + trimmed title + Date separated by underscores
-    renterId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    },
+    renterId: String, //userId
+    requestAccepted: Boolean,
     renterName: String, //username
     dateRented: Date
 },
