@@ -23,7 +23,7 @@ var userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Movie'
   }],
-  borrowing: [{
+  lending: [{
     id: String,
     username: String,
     requestAccepted: Boolean,

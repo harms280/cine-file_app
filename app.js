@@ -36,11 +36,12 @@ app.use(loginMiddleware);
 //ROUTE
 
 app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
-  res.redirect('/movies');
+  res.redirect('/users');
 });
 
 app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
   //have link to signup if no login
+  res.render('users/login', {pageTitle: "Login Page"});
 });
 
 app.post('/login', function(req,res){
@@ -51,6 +52,7 @@ app.post('/login', function(req,res){
 
 app.get('/signup', routeMiddleware.preventLoginSignup, function(req,res){
   //load signup page
+  res.render('users/signup', {pageTitle: "Signup Page"});
 });
 
 app.post('/signup', function(req,res){
@@ -78,17 +80,18 @@ app.get('/users/:id', function(req,res){
 });
 
 //EDIT
-app.get('users/:id/edit', function(req,res){
+app.get('/users/:id/edit', function(req,res){
   //option for only the user of the page
+  res.render('users/edit', {title: "Edit User Profile"});
 });
 
 //UPDATE
-app.put('user/:id', function(req,res){
+app.put('/user/:id', function(req,res){
   //update user profile info (not movies or friends)
 });
 
 //DELETE
-app.delete('users/:id', function(req,res){
+app.delete('/users/:id', function(req,res){
   //delete user, make sure to delete the array of movies too using the special remove
 });
 
@@ -208,8 +211,13 @@ app.put('/rentals/:id', function(req,res){
   //if accepted rental request, then check to see if any other people are requesting a rental, remove from their borrowed array and message them they've been declined?
   //
 });
-//DELETE
 
-app.listen(4000, function(){
-  console.log("Now listening on port 4000");
+//DELETE
+app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
+  //remove a rental from the borrowed array of user and set rental status to false
+});
+
+
+app.listen(3000, function(){
+  console.log("Now listening on port 3000");
 });
