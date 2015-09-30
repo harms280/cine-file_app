@@ -41,6 +41,10 @@ app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
   res.redirect('/users');
 });
 
+app.get('/about', function(req,res){
+  res.render('users/about', {pageTitle: "About Page", currentUserName: currentUserName});
+});
+
 app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
   res.render('users/login', {pageTitle: "Login Page"});
 });
@@ -108,7 +112,7 @@ app.get('/users/:id/edit', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 //UPDATE
-app.put('/user/:id', routeMiddleware.ensureLoggedIn, function(req,res){
+app.put('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //update user profile info (not movies or friends)
 });
 
@@ -124,12 +128,25 @@ app.delete('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 //INDEX
 app.get('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
  //your movie collection add new movie to collection, search for movie by title(extra???)
+ db.Movie.find({owner: req.session.id}, function (err, movies) {
+  movies.sort(function(a,b){
+    if(a.title > b.title) {
+      return 1;
+    }
+    if(a.title < b.title) {
+      return -1;
+    }
+    return 0;
+  });
+  res.render('movies/index', {currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
+ });
 });
 
 //NEW
 app.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,res){
   //add new movie to your collection, run a request for the movie title that user typed in, this will search the apis for the right movie by title, for you to select
   //when you select movie, it makes the proper requests to make movie object when you post it
+  
 });
 
 //CREATE
@@ -183,13 +200,13 @@ app.get('/friends/new', routeMiddleware.ensureLoggedIn, function(req,res){
     // console.log(friend)
     db.User.findOne({username: req.query.friendSearch}).exec(function(err,friend) {
       db.User.findById(req.session.id, function (err, user) {
-        console.log("This is current user", user);
-        console.log("This is friend",friend);
-        console.log("Friend username",friend.username);
+        // console.log("This is current user", user);
+        // console.log("This is friend",friend);
+        // console.log("Friend username",friend.username);
         user.friends.forEach(function (el) {
-          console.log("Friends inside current user: ",el);
-          console.log(el._id);
-          console.log(friend._id);
+          // console.log("Friends inside current user: ",el);
+          // console.log(el._id);
+          // console.log(friend._id);
           if(el.username == req.query.friendSearch) {
             if(el.requestAccepted) {
               friended = true;
@@ -214,10 +231,10 @@ app.post('/friends', function(req,res){
   //send friend request, with default false for accepted field
   db.User.findById(req.session.id, function (err, user){
     user.friends.push(req.body.friend);
-    console.log(user);
+    // console.log(user);
     
     db.User.findById(req.body.friend._id, function (err, friend) {
-      console.log(friend);
+      // console.log(friend);
       var friendRequested = {
         _id: req.session.id,
         username: user.username,
@@ -238,7 +255,10 @@ app.post('/friends', function(req,res){
 
 //SHOW
 app.get('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
-  //show friend details; have a part on the page that shows if you are friends or not or pending; 
+  //show friend details; have a part on the page that shows if you are friends or not or pending;
+  db.User.findById(req.params.id, function (err, friend) {
+    res.render('friends/show', {currentUserName: currentUserName, pageTitle: "Friend Details", friend: friend});
+  }); 
 });
 
 //EDIT
@@ -249,11 +269,55 @@ app.get('/friends/:id/edit', routeMiddleware.ensureLoggedIn, function(req,res){
 //UPDATE
 app.put('/friends/:id', function(req,res){
   //this is the route when you click accept friend request
+  db.User.findById(req.params.id, function (err, friend) {
+    friend.friends.forEach(function (el) {
+      console.log("From params",req.params.id);
+      console.log('To string of id: ', el._id.toString());
+      if(el._id.toString() == req.session.id) {
+        el.requestAccepted = true;
+    }
+  });
+
+    db.User.findById(req.session.id, function (err, user) {
+      user.friends.forEach(function (el2) {
+        console.log("From params",req.params.id);
+        console.log('To string of id: ', el2._id.toString());
+        if(el2._id.toString() == req.params.id) {
+          el2.requestAccepted = true;
+      }
+    });
+      friend.save();
+      user.save();
+      res.redirect('/friends');
+  });
+  });
 });
 
 //DELETE
 app.delete('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //when you click decline friend request, it removed them from your friends array
+  db.User.findById(req.params.id, function (err, friend) { //gets user the friend requested you
+    friend.friends.forEach(function (el, i) {
+      console.log("From params",req.params.id);
+      console.log('To string of id: ', el._id.toString());
+      if(el._id.toString() == req.session.id) {
+        friend.friends.splice(i,1);
+    }
+  });
+
+    db.User.findById(req.session.id, function (err, user) {
+      user.friends.forEach(function (el2,i2) {
+        console.log("From params",req.params.id);
+        console.log('To string of id: ', el2._id.toString());
+        if(el2._id.toString() == req.params.id) {
+          user.friends.splice(i2,1);
+      }
+    });
+      friend.save();
+      user.save();
+      res.redirect('/friends');
+    });
+  });
 });
 
 /********* RENTAL ROUTES *********/

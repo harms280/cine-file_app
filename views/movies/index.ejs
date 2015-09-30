@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+
+<div class="page-header">
+    <h1>My Movie Collection</h1>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <table class="table table-striped table-bordered table-condensed text-center">
+          <thead>
+            <th class="text-center">Poster</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Year</th>
+          </thead>
+          <tbody>
+            <% movies.forEach(function(movie) { %>
+               <tr>
+                <td><img src="<%=movie.poster %>" alt="movie poster"></td>
+                 <td><a href="movies/<%= movie._id %>"><%= movie.title %></a></td>
+                 <td><%= movie.year %></td>
+                 <!-- <td><form action="/countries/<%=movie.id%>?_method=delete" method="POST"><button type="submit" class="btn btn-default btn-sm">Delete</button></form></td> -->
+               </tr>
+             <% }) %>
+          </tbody>
+      </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-5">
+        <form action="/movies/new">
+          <label for="movieSearch">Find Movie to Add: </label>
+          <input type="text" id="movieSearch" placeholder="Search movie title">
+          <button class="btn btn-success btn-lg" type="submit"> Search</button>
+        </form>
+      </div>
+      <!-- <div class="col-md-5 col-md-offset-2">
+      <form action="/sort?_method=put" method="POST">
+        <button type="submit" class="btn btn-primary btn-lg pull-right">Alphabetically Sort Zoo</button>
+      </form>
+      </div> -->
+    </div>
+    </div>
+
+<% include ../partials/footer %>
