@@ -13,6 +13,7 @@ var movieSchema = new mongoose.Schema({
   actors: String, //omdb
   plot: String, //omdb
   poster: String, //concatentate from themoviedb
+  thumbnailPoster: String, //from omdb
   imdbPage: String,
   format: String, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
@@ -22,10 +23,16 @@ var movieSchema = new mongoose.Schema({
   rented: String, //false, pending, or true
   rentalInfo: {
     rentalId: String, //combo of username + trimmed title + Date separated by underscores
-    renterId: String, //userId
-    requestAccepted: Boolean,
+    renterId: {
+        type: mongoose.Schema.Types.ObjectId, //userId
+        ref: "User"
+      },
+    // requestAccepted: Boolean,
     renterName: String, //username
-    dateRented: Date
+    dateRented: {
+      type: Date,
+      default: Date.now()
+    }
 },
 });
 

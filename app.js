@@ -33,6 +33,8 @@ app.use(session({
 
 app.use(loginMiddleware);
 
+var currentUserName;
+
 //ROUTE
 
 app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
@@ -40,13 +42,21 @@ app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-  //have link to signup if no login
   res.render('users/login', {pageTitle: "Login Page"});
 });
 
 app.post('/login', function(req,res){
   db.User.authenticate(req.body.user, function (err, user){
-    //
+    if(err) {
+      console.log(err);
+      res.render('users/login', {pageTitle: 'Login Page'});
+    } else if(!err && user !== null){
+      req.login(user);
+      currentUserName = user.username;
+      console.log(user.username);
+      console.log(currentUserName);
+      res.redirect('/users');
+    }
   });
 });
 
@@ -57,12 +67,23 @@ app.get('/signup', routeMiddleware.preventLoginSignup, function(req,res){
 
 app.post('/signup', function(req,res){
   db.User.create(req.body.user, function (err, user){
-    //check for err then user 
+    if(err) {
+      console.log(err);
+      res.redirect('/signup');
+    } else {
+      console.log(user);
+      req.login(user);
+      currentUserName = user.username;
+      console.log(user.username);
+      console.log(currentUserName);
+      res.redirect('/users');
+    }
   });
 });
 
 app.get('/logout', function(req,res){
   req.logout();
+  currentUserName = "";
   res.redirect('/');
 });
 
@@ -71,6 +92,7 @@ app.get('/logout', function(req,res){
 //INDEX
 app.get('/users', function(req,res){ //main page once logged in. Call it main????
   //shows friend acitivity, add new movie to collection, search for movie by title (in your collection or friends)
+  res.render('users/users', {currentUserName: currentUserName, pageTitle: "Main Page"});
 });
 
 
@@ -217,6 +239,9 @@ app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //remove a rental from the borrowed array of user and set rental status to false
 });
 
+// app.get('*', function(req,res){
+//   res.render('404');
+// });
 
 app.listen(3000, function(){
   console.log("Now listening on port 3000");

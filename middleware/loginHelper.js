@@ -12,6 +12,7 @@ var loginHelpers = function (req, res, next) {
     req.user  = null;
   };
 
+  res.locals.user_id = req.session.id;
   next();
 };
 

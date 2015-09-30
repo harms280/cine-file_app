@@ -17,7 +17,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="http://images.clipartpanda.com/movie-film-clip-art-FilmStrip2A-264x225.jpg" alt="brand" max-width="50px" height="50px" class="pull-left">
+      <img src="https://cdn2.iconfinder.com/data/icons/cinema-and-television/500/Entertainment_film_film_reel_film_roll_movie_reel_roll_theate-512.png" alt="brand" max-width="50px" height="50px" class="pull-left">
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,12 +33,12 @@
         <button type="submit" class="btn btn-default">Get Info</button>
       </form> -->
       <ul class="nav navbar-nav navbar-right">
-        
-          <p class="navbar-text">Logged in as: <strong>PLACEHOLDER</strong></p>
+        <% if(user_id != null) { %>
+          <p class="navbar-text">Logged in as: <strong><%= currentUserName %></strong></p>
           <li><a href="/logout">Logout</a></li>
-
+          <% } else { %>
           <li><a href="/login">Login</a></li>
-
+          <% } %>
         <!-- <li><a href="/contact">Contact</a></li> -->
       </ul>
     </div><!-- /.navbar-collapse -->

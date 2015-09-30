@@ -13,9 +13,14 @@ var userSchema = new mongoose.Schema({
   },
   password: {type: String, required: true},
   friends: [{
-    id: String,
+    id: { type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     username: String,
-    requestAccepted: Boolean,
+    requestAccepted: {
+      type:Boolean,
+      default: false
+    }
     // type: mongoose.Schema.Types.ObjectId,
     // ref: 'User'
   }],
