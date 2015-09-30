@@ -9,7 +9,7 @@
   <div class="row post">
         
         <div class="col-md-7">
-             <h3><a href="/posts/<%= friend.id %>"><%= friend.username %></a></h3>
+             <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
         </div>
   </div>
   <% } %>
@@ -22,7 +22,7 @@
   <div class="row post">
         
         <div class="col-md-7">
-             <h3><a href="/posts/<%= friend.id %>"><%= friend.username %></a></h3>
+             <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
              <% if(friend.receiver) { %>
               <form action="/friends/<%= friend.id%>?_method=PUT" method="POST">
                 <button class="btn btn-success" type="submit">Accept</button>
