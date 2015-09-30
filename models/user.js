@@ -13,16 +13,16 @@ var userSchema = new mongoose.Schema({
   },
   password: {type: String, required: true},
   friends: [{
-    id: { type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
     },
     username: String,
+    receiver: {type:Boolean, default: false},
     requestAccepted: {
       type:Boolean,
       default: false
     }
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'User'
   }],
   movieCollection: [{
     type: mongoose.Schema.Types.ObjectId,

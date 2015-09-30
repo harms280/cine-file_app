@@ -1,0 +1,24 @@
+<% include ../partials/header %>
+
+<h1>Request a Friend</h1>
+
+<h3>Confirm friend:</h3>
+
+<p>username: <%= friend.username %></p>
+<p>email: <%= friend.email %></p>
+<p>Name: <%= friend.firstName%> <%= friend.lastName%></p>
+<p>City: <%= friend.city %></p>
+<p>State: <%= friend.state %></p>
+<!-- <p>Mutual Friends: (have list of mutual friends)</p> -->
+<% if(pending) { %>
+  <h6>FRIEND REQUEST PENDING</h6>
+<% } else if (friended){ %>
+  <h6>You are friends with this person</h6>
+<% } else { %>
+<form action="/friends" method="POST">
+  <input type="hidden" name="friend[_id]" value="<%= friend._id %>">
+  <input type="hidden" name="friend[username]" value="<%= friend.username %>">
+  <input type="submit" value="Send Friend Request" class="btn btn-primary">
+</form>
+<% } %>
+<% include ../partials/footer %>

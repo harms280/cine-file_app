@@ -1,0 +1,35 @@
+<% include ../partials/header %>
+
+<h1>Friends List</h1>
+
+<h3>Your Friends:</h3>
+<% user.friends.forEach(function(friend) { %>
+
+<% if(friend.requestAccepted) { %>
+  <div class="row post">
+        
+        <div class="col-md-7">
+             <h3><a href="/posts/<%= friend.id %>"><%= friend.username %></a></h3>
+        </div>
+  </div>
+  <% } %>
+<%  })%>
+
+<h3>Pending Requests:</h3>
+<% user.friends.forEach(function(friend) { %>
+
+<% if(!friend.requestAccepted) { %>
+  <div class="row post">
+        
+        <div class="col-md-7">
+             <h3><a href="/posts/<%= friend.id %>"><%= friend.username %></a></h3>
+             <% if(friend.receiver) { %>
+              <a href="/friends/<%= friend.id%>?_method=PUT" method="POST" class="btn btn-success">Accept</a>
+              <a href="/friends/<%= friend.id%>?_method=DELETE" method="POST" class="btn btn-danger">Decline</a>
+            <% } %>
+        </div>
+  </div>
+  <% } %>
+<%  })%>
+
+<% include ../partials/footer %>

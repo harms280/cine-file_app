@@ -26,7 +26,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({ 
-  maxAge: 60000000,
+  maxAge: 600000,
   secret: process.env.SESSION_SECRET,
   name: 'session use name'
 }));
@@ -84,36 +84,36 @@ app.post('/signup', function(req,res){
 app.get('/logout', function(req,res){
   req.logout();
   currentUserName = "";
-  res.redirect('/');
+  res.redirect('/login');
 });
 
 /********* USER ROUTES *********/
 
 //INDEX
-app.get('/users', function(req,res){ //main page once logged in. Call it main????
+app.get('/users', routeMiddleware.ensureLoggedIn, function(req,res){ //main page once logged in. Call it main????
   //shows friend acitivity, add new movie to collection, search for movie by title (in your collection or friends)
   res.render('users/users', {currentUserName: currentUserName, pageTitle: "Main Page"});
 });
 
 
 //SHOW
-app.get('/users/:id', function(req,res){ 
+app.get('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){ 
   //render user info and movie collection, what they are renting
 });
 
 //EDIT
-app.get('/users/:id/edit', function(req,res){
+app.get('/users/:id/edit', routeMiddleware.ensureLoggedIn, function(req,res){
   //option for only the user of the page
   res.render('users/edit', {title: "Edit User Profile"});
 });
 
 //UPDATE
-app.put('/user/:id', function(req,res){
+app.put('/user/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //update user profile info (not movies or friends)
 });
 
 //DELETE
-app.delete('/users/:id', function(req,res){
+app.delete('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //delete user, make sure to delete the array of movies too using the special remove
 });
 
@@ -166,16 +166,74 @@ app.delete('/movies/:id', routeMiddleware.ensureCorrectUserForMovie, function(re
 //INDEX
 app.get('/friends', routeMiddleware.ensureLoggedIn, function(req,res){
   //List of logged in user's friends, which will be sorted according to matching the friends accepted true of logged in user
+  db.User.findById(req.session.id).populate('friends.id').exec(function (err,user){
+    console.log(user);
+    res.render('friends/index', {currentUserName: currentUserName, pageTitle: "Friends List", user: user});
+  });
 });
 
 //NEW
 app.get('/friends/new', routeMiddleware.ensureLoggedIn, function(req,res){
   //go here when you want to send friend request, search db for friends that aren't in current list by their ids
+  if(!req.query.friendSearch) {
+    res.redirect('/users');
+  } else {
+    var pending;
+    var friended;
+    // console.log(friend)
+    db.User.findOne({username: req.query.friendSearch}).exec(function(err,friend) {
+      db.User.findById(req.session.id, function (err, user) {
+        console.log("This is current user", user);
+        console.log("This is friend",friend);
+        console.log("Friend username",friend.username);
+        user.friends.forEach(function (el) {
+          console.log("Friends inside current user: ",el);
+          console.log(el._id);
+          console.log(friend._id);
+          if(el.username == req.query.friendSearch) {
+            if(el.requestAccepted) {
+              friended = true;
+            } else {
+              pending = true;
+            }
+          }
+        });
+        res.render('friends/new', {currentUserName: currentUserName, pageTitle: "Friend Search", friend: friend, pending: pending, friended: friended});
+      });
+      // if(err) {
+      //   console.log(err);
+      //   res.redirect('/users');
+      // } else {
+      // }
+    });
+  }
 });
 
 //CREATE
 app.post('/friends', function(req,res){
   //send friend request, with default false for accepted field
+  db.User.findById(req.session.id, function (err, user){
+    user.friends.push(req.body.friend);
+    console.log(user);
+    
+    db.User.findById(req.body.friend._id, function (err, friend) {
+      console.log(friend);
+      var friendRequested = {
+        _id: req.session.id,
+        username: user.username,
+        receiver: true
+      };
+      // req.body.friend._id = req.session.id;
+      // req.body.friend.username = user.username;
+      // req.body.friend.receiver = true;
+      // console.log(req.body.friend);
+      friend.friends.push(friendRequested);
+      user.save();
+      friend.save();
+      res.redirect('/friends');
+    });
+
+  });
 });
 
 //SHOW
