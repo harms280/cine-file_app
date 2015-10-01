@@ -1,0 +1,58 @@
+<% include ../partials/header %>
+
+<div class="page-header">
+    <h1><%= movie.title %></h1>
+</div>
+<div class="container">
+  <div class="jumbotron">
+    <form method="POST" action="/movies/<%= movie.id %>?_method=PUT" >
+      <div class="form-group">
+        <label for="director"> Director: </label>
+        <input type="text" id="director" name="movie[director]" class="form-control" value="<%= movie.director %>">
+      </div>
+      <div class="form-group">
+        <label for="year"> Year: </label>
+        <input type="text" id="year" name="movie[year]" value="<%= movie.year %>" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="actors"> Actors: </label>
+        <input type="text" id="actors" name="movie[actors]" value="<%= movie.actors %>" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="plot"> Plot: </label>
+        <input type="text" id="plot" name="movie[plot]" value="<%= movie.plot %>" class="form-control">
+      </div>
+      <!-- <div class="form-group">
+        <label for="poster"> Poster: </label>
+        <input type="text" id="poster" name="movie[poster]" value="<%= movie.poster %>" class="form-control" placeholder="Enter poster URL">
+      </div> -->
+      <div class="form-group">
+        <label for="format"> Format: </label>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.bluRay]" id="checkbox1" value="true">Blu-ray</label>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.dvd]" id="checkbox2" value="true">DVD</label>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.vhs]" id="checkbox3" value="true">VHS</label>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.other]" id="checkbox4" value="true">Other</label>
+      </div>
+      <div class="form-group">
+        <label for="watched"> Watched: </label>
+        <label class="radio-inline">
+          <input type="radio" name="movie[watched]" id="inlineRadio1" value="false"> Haven't watched
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="movie[watched]" id="inlineRadio2" value="true"> Watched
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="poster"> Poster: </label>
+        <input type="text" id="poster" name="movie[poster]" value="<%= movie.poster %>" class="form-control" placeholder="Enter poster URL">
+      </div>
+      <div class="form-group">
+        <label for="notes"> Notes: </label>
+        <textarea class="form-control" name="movie[notes]" rows="3" placeholder="Enter Notes About Film"><%= movie.notes %></textarea>
+      </div>
+      <input type="submit" value="Update" class="btn btn-warning">
+      <a href="/movies/<%= movie.id %>" class="btn btn-danger pull-right">Cancel</a>
+    </form>
+  </div>
+</div>
+<% include ../partials/footer %>

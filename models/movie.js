@@ -15,12 +15,18 @@ var movieSchema = new mongoose.Schema({
   poster: String, //concatentate from themoviedb
   thumbnailPoster: String, //from omdb
   // imdbPage: String,
-  format: String, //Blu Ray, DVD, VHS, film, digital, other???
+  format: {
+    bluRay: Boolean,
+    dvd: Boolean,
+    vhs: Boolean,
+    other: Boolean
+  }, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
   notes: String,
   dateAdded: Date,
   userRating: Number, //out of 10 stars? or 5 with .5 increments?
-  rented: String, //false, pending, or true
+  backgroundImages: Array,
+  rented: {type: String, default: "false"}, //false, pending, or true
   rentalInfo: {
     rentalId: String, //combo of username + trimmed title + Date separated by underscores
     renterId: {

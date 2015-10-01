@@ -173,46 +173,57 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
     console.log("mdb result", mdbRes);
     request('http://www.omdbapi.com/?t='+ titleSearch, function (err,response,data){
       if(!err && response.statusCode == 200) {
-        console.log("IMDB result:", omdbMovie);
         var omdbMovie = JSON.parse(data);
-        console.log(omdbMovie);
-        db.Movie.create({
-          owner: req.session.id,
-          title: mdbRes.title,
-          director: omdbMovie.Director,
-          year: omdbMovie.Year,
-          actors: omdbMovie.Actors,
-          plot: omdbMovie.Plot,
-          poster: "https://image.tmdb.org/t/p/original"+mdbRes.poster_path,
-          thumbnailPoster: omdbMovie.Poster,
-          dateAdded: Date.now(),
-        }, function (err, movie) {
-          if(err) {
-            console.log(err);
-            res.redirect('/movies');
-          } else {
-            res.redirect('/movies');
-          }
+        // console.log(omdbMovie);
+        request('https://api.themoviedb.org/3/movie/'+ req.body.id +'/images?api_key='+ process.env.API_KEY + '&language=en&include_image_language=en,null', function (err, response, result){
+          var images = JSON.parse(result);
+          console.log("These are the images", images.backdrops);
+          db.Movie.create({
+            owner: req.session.id,
+            title: mdbRes.title,
+            director: omdbMovie.Director,
+            year: omdbMovie.Year,
+            actors: omdbMovie.Actors,
+            plot: omdbMovie.Plot,
+            poster: "https://image.tmdb.org/t/p/original"+mdbRes.poster_path,
+            thumbnailPoster: omdbMovie.Poster,
+            dateAdded: Date.now(),
+            backgroundImages: images.backdrops,
+          }, function (err, movie) {
+            if(err) {
+              console.log(err);
+              res.redirect('/movies');
+            } else {
+              res.redirect('/movies');
+            }
+          });          
         });
       }
     });
-
   });
 });
 
 //SHOW 
 app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
+
 });
 
 //EDIT
 app.get('/movies/:id/edit', routeMiddleware.ensureCorrectUserForMovie, function(req,res){
   //list of info of movie, shouldn't be able to edit the title (searching etc), just notes
+  db.Movie.findById(req.params.id, function (err, movie) {
+    res.render('movies/edit', {pageTitle: 'Edit Movie', currentUserName: currentUserName, movie: movie});
+  });
 });
 
 //UPDATE
 app.put('/movies/:id', function(req,res){
   //update movie details
+  db.Movie.findByIdAndUpdate(req.params.id, req.body.movie, function (err, movie){
+    // console.log(req.body.movie);
+    res.redirect('/movies');
+  });
 });
 
 //DELETE
@@ -419,6 +430,6 @@ app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 //   res.render('404');
 // });
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
   console.log("Now listening on port 3000");
 });
