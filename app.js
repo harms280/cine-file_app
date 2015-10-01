@@ -170,7 +170,32 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
   //create movie in movie db
   var titleSearch = encodeURIComponent(req.body.title);
   mdb.movieInfo({id: req.body.id}, function(err, mdbRes){
-    console.log(res);
+    console.log("mdb result", mdbRes);
+    request('http://www.omdbapi.com/?t='+ titleSearch, function (err,response,data){
+      if(!err && response.statusCode == 200) {
+        console.log("IMDB result:", omdbMovie);
+        var omdbMovie = JSON.parse(data);
+        console.log(omdbMovie);
+        db.Movie.create({
+          owner: req.session.id,
+          title: mdbRes.title,
+          director: omdbMovie.Director,
+          year: omdbMovie.Year,
+          actors: omdbMovie.Actors,
+          plot: omdbMovie.Plot,
+          poster: "https://image.tmdb.org/t/p/original"+mdbRes.poster_path,
+          thumbnailPoster: omdbMovie.Poster,
+          dateAdded: Date.now(),
+        }, function (err, movie) {
+          if(err) {
+            console.log(err);
+            res.redirect('/movies');
+          } else {
+            res.redirect('/movies');
+          }
+        });
+      }
+    });
 
   });
 });
@@ -193,6 +218,14 @@ app.put('/movies/:id', function(req,res){
 //DELETE
 app.delete('/movies/:id', routeMiddleware.ensureCorrectUserForMovie, function(req, res) {
   //delete movie from db
+  db.Movie.findByIdAndRemove(req.params.id, function (err,movie) {
+    if(err) {
+      console.log(err);
+      res.redirect('/movies');
+    } else {
+      res.redirect('/movies');
+    }
+  });
 });
 
 

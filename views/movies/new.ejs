@@ -15,7 +15,7 @@
             <h5 class="text-center"><%= movie.title %> (<%= movie.release_date.substr(0,4) %>)</h5>
            <!-- <div class="row"> -->
            <!-- <div class="col-md-10 col-md-offset-1"> -->
-            <form action="/movies/<%= movie.title %>" method="POST">
+            <form action="/movies" method="POST">
               <input type="hidden"  name="title" value="<%= movie.title %>">
               <input type="hidden" name="id" value="<%= movie.id%>">
               <button class="btn btn-success" type="submit" role="button">Add to Collection</button>

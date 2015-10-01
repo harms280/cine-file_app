@@ -5,7 +5,7 @@
   </div>
   <div class="container">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
+      <div class="col-md-10 col-md-offset-1">
         <table class="table table-striped table-bordered table-condensed text-center">
           <thead>
             <th class="text-center">Poster</th>
@@ -15,9 +15,17 @@
           <tbody>
             <% movies.forEach(function(movie) { %>
                <tr>
-                <td><img src="<%=movie.poster %>" alt="movie poster"></td>
-                 <td><a href="movies/<%= movie._id %>"><%= movie.title %></a></td>
-                 <td><%= movie.year %></td>
+                <td class="col-md-4 text-center vert-align"><img src="<%=movie.poster %>" alt="movie poster"></td>
+                 <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
+                 <td class="col-md-4 vert-align"><h4><%= movie.year %></h4></td>
+                 <% if(movie.owner.toString() == user_id ) { %>
+                    <td class="vert-align"><a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a></td>
+                  <td class="vert-align">
+                    <form action="/movies/<%= movie._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                  </td>
+                  <% } %>
                  <!-- <td><form action="/countries/<%=movie.id%>?_method=delete" method="POST"><button type="submit" class="btn btn-default btn-sm">Delete</button></form></td> -->
                </tr>
              <% }) %>

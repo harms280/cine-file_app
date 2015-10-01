@@ -17,3 +17,14 @@ body#catchall {
   display: block;
   margin: 0 auto;
 }
+
+.table td img {
+  width: 185px;
+  height: 278px;
+}
+
+.table tbody>tr>td.vert-align {
+  /*display: inline-block;*/
+  vertical-align: middle;
+  /*float: none;*/
+}

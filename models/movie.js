@@ -14,7 +14,7 @@ var movieSchema = new mongoose.Schema({
   plot: String, //omdb
   poster: String, //concatentate from themoviedb
   thumbnailPoster: String, //from omdb
-  imdbPage: String,
+  // imdbPage: String,
   format: String, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
   notes: String,
