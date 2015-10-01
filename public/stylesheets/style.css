@@ -8,3 +8,12 @@ body#catchall {
   /*background-size: cover;
   background-position: fixed;*/
 }
+
+.thumbnail a>img {
+  height: 317px;
+}
+
+.thumbnail .btn {
+  display: block;
+  margin: 0 auto;
+}

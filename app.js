@@ -19,6 +19,12 @@ var cheerio = require('cheerio');
 
 var session = require('cookie-session');
 
+var cheerio = require('cheerio');
+
+var request = require('request');
+
+var mdb = require('moviedb')('af10843e745e3689a2bdd1907d1de30f');
+
 var morgan = require('morgan');
 app.use(morgan('tiny'));
 
@@ -143,15 +149,30 @@ app.get('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 //NEW
-app.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,res){
+app.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,response){
   //add new movie to your collection, run a request for the movie title that user typed in, this will search the apis for the right movie by title, for you to select
   //when you select movie, it makes the proper requests to make movie object when you post it
-  
+  // var searchResults = [];
+  var titleSearch = encodeURIComponent(req.query.movieSearch);
+  mdb.searchMovie({query: titleSearch}, function(err, res){
+    var searchResults =  res.results.filter(function(el,i) {
+      if(i<5) {
+        return el;
+      }
+    });
+    console.log(searchResults);
+    response.render('movies/new', {movies: searchResults, pageTitle: "Movie Search", currentUserName: currentUserName});
+  });
 });
 
 //CREATE
 app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
   //create movie in movie db
+  var titleSearch = encodeURIComponent(req.body.title);
+  mdb.movieInfo({id: req.body.id}, function(err, mdbRes){
+    console.log(res);
+
+  });
 });
 
 //SHOW 
