@@ -35,10 +35,12 @@
     </div>
     <div class="row">
       <div class="col-md-5">
-        <form action="/movies/new">
+        <form action="/movies/new" class="form-inline">
+        <div class="form-group">
           <label for="movieSearch">Find Movie to Add: </label>
-          <input type="text" id="movieSearch" name="movieSearch" placeholder="Search movie title">
-          <button class="btn btn-success btn-lg" type="submit"> Search</button>
+          <input type="text" id="movieSearch" name="movieSearch"  class="form-control" placeholder="Search movie title">
+          <button class="btn btn-success" type="submit">Search</button>
+        </div>
         </form>
       </div>
       <!-- <div class="col-md-5 col-md-offset-2">

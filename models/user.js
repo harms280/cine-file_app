@@ -90,6 +90,7 @@ userSchema.methods.checkPassword = function(password, callback) {
 
 userSchema.pre('remove', function(callback){
   Movie.remove({owner: this._id}).exec();
+  Rental.remove({owner: this._id}).exec();
   callback();
 });
 

@@ -2,9 +2,12 @@
 
 <h1>This is a placeholder for Users.ejs</h1>
 
-<form action="/friends/new">
-  <label for="friendSearch">Search for friend</label> <!-- add email option -->
-  <input type="text" id="friendSearch" name="friendSearch" placeholder="Enter Friend's Username">
+<form action="/friends/new" class="form-inline">
+  <div class="form-group">
+    <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
+    <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
+    
+  </div>
 </form>
 
 <% include ../partials/footer %>

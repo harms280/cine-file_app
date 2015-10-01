@@ -32,7 +32,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.use(session({ 
-  maxAge: 600000,
+  maxAge: 1200000,
   secret: process.env.SESSION_SECRET,
   name: 'session use name'
 }));
@@ -175,7 +175,7 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
       if(!err && response.statusCode == 200) {
         var omdbMovie = JSON.parse(data);
         // console.log(omdbMovie);
-        request('https://api.themoviedb.org/3/movie/'+ req.body.id +'/images?api_key='+ process.env.API_KEY + '&language=en&include_image_language=en,null', function (err, response, result){
+        request('https://api.themoviedb.org/3/movie/'+ req.body.id +'/images?api_key='+ process.env.API_KEY +'&language=en&include_image_language=en,null', function (err, response, result){
           var images = JSON.parse(result);
           console.log("These are the images", images.backdrops);
           db.Movie.create({
@@ -206,6 +206,9 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 //SHOW 
 app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
+  db.Movie.findById(req.params.id, function (err,movie) {
+    res.render('movies/show', {movie:movie, pageTitle: "Movie Details", currentUserName: currentUserName});
+  });
 
 });
 

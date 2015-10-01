@@ -28,3 +28,7 @@ body#catchall {
   vertical-align: middle;
   /*float: none;*/
 }
+
+.poster {
+  width: 185px;
+}

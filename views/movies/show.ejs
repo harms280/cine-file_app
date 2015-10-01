@@ -1,0 +1,20 @@
+<% include ../partials/header %>
+<div class="page-header">
+    <h1><%= movie.title %></h1>
+</div>
+<img src="<%=movie.poster%>" alt="profile pic" class="poster img-responsive">
+<p>Title: <%= movie.title %></p>
+<p>Director: <%= movie.director %></p>
+<p>Year: <%= movie.year %></p>
+<p>Actors: <%= movie.actors %></p>
+<p>Plot: <%= movie.plot %></p>
+<p>Format: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
+<p>Watch: <%= movie.watched %></p>
+<p>Notes: <%= movie.notes %></p>
+<p>Date Added to Collection: <%= movie.dateAdded %></p>
+<p>Your Rating: <%= movie.userRating %></p>
+<p>Rented: <%= movie.rented %></p>
+
+<a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a>
+
+<% include ../partials/footer %>
