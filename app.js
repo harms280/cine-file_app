@@ -207,6 +207,15 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
   db.Movie.findById(req.params.id, function (err,movie) {
+    // request('http://instantwatcher.com/search?content_type=1+2&q='+movie.title, function (error, response, html) {
+    //   if (!error && response.statusCode == 200) {
+    //     var $ = cheerio.load(html);
+    //     $('span.comhead').each(function(i, element){
+    //       var a = $(this).prev();
+    //       console.log(a.text());
+    //     });
+    //   }
+    // });
     res.render('movies/show', {movie:movie, pageTitle: "Movie Details", currentUserName: currentUserName});
   });
 
@@ -327,6 +336,24 @@ app.get('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   db.User.findById(req.params.id, function (err, friend) {
     res.render('friends/show', {currentUserName: currentUserName, pageTitle: "Friend Details", friend: friend});
   }); 
+});
+
+//FRIEND'S COLLECTION
+app.get('/friends/:id/collection', routeMiddleware.ensureLoggedIn, function(req,res){
+  db.Movie.find({owner: req.params.id}, function (err, movies) {
+    movies.sort(function(a,b){
+    if(a.title > b.title) {
+      return 1;
+    }
+    if(a.title < b.title) {
+      return -1;
+    }
+    return 0;
+  });
+    db.User.findById(req.params.id, function (err, friend) {
+      res.render('friends/collection', {currentUserName: currentUserName, pageTitle: "Friend's Movie Collection", movies: movies, friend: friend});
+    });
+  });
 });
 
 //EDIT
