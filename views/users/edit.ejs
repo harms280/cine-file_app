@@ -1,0 +1,40 @@
+<% include ../partials/header %>
+<div class="container">
+  <div class="jumbotron">
+    <form method="POST" action="/users/<%= user_id%>?_method=PUT" >
+      <div class="form-group">
+        <label for="email">Username:</label>
+        <input type="text" id="email" name="user[username]" class="form-control" value="<%=profile.username%>" autofocus required>
+      </div>
+      <div class="form-group">
+        <label for="avatar">Avatar:</label>
+        <input type="url" id="avatar" name="user[avatar]" class="form-control" value="<%=profile.avatar%>"placeholder="Enter Avatar URL">
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="user[email]" class="form-control" value="<%=profile.email%>" placeholder="Enter Email">
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="user[firstName]" class="form-control" value="<%=profile.firstName%>">
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="user[lastName]" class="form-control" value="<%=profile.lastName%>">
+      </div>
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="user[city]" class="form-control" value="<%=profile.city%>" placeholder="Enter Current City">
+      </div>
+      <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" id="state" name="user[state]" class="form-control" value="<%=profile.state%>" placeholder="Enter Current State">
+      </div>
+      <input type="submit" value="Update" class="btn btn-primary">
+      <a href="/" class="btn btn-danger pull-right">Cancel</a>
+    </form>
+  </div>
+
+</div>
+
+<% include ../partials/footer %>

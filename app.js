@@ -109,17 +109,26 @@ app.get('/users', routeMiddleware.ensureLoggedIn, function(req,res){ //main page
 //SHOW
 app.get('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){ 
   //render user info and movie collection, what they are renting
+  db.User.findById(req.session.id, function (err, profile){
+    res.render('users/profile', {profile: profile, pageTitle: "Profile Page", currentUserName: currentUserName});
+  });
 });
 
 //EDIT
 app.get('/users/:id/edit', routeMiddleware.ensureLoggedIn, function(req,res){
   //option for only the user of the page
-  res.render('users/edit', {title: "Edit User Profile"});
+  db.User.findById(req.session.id, function (err, profile) {
+    res.render('users/edit', {pageTitle: "Edit User Profile", profile: profile, currentUserName: currentUserName});
+  });
 });
 
 //UPDATE
 app.put('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //update user profile info (not movies or friends)
+  db.User.findByIdAndUpdate(req.params.id, req.body.user, function (err, user) {
+    console.log(user);
+    res.redirect('/users/:id');
+  });
 });
 
 //DELETE
