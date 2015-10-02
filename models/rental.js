@@ -22,7 +22,8 @@ var rentalSchema = new mongoose.Schema({
   moviePoster: String,
   rentalAccepted: {type: Boolean, default: false},
   active: {type: Boolean, default: true},
-  dateRented: {type: Date, default: Date.now()}
+  dateRented: {type: Date, default: Date.now()},
+  dateReturned: Date
 });
 
 var Rental = mongoose.model('Rental', rentalSchema);

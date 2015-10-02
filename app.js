@@ -427,12 +427,12 @@ app.delete('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 
 //shallow routes relative to user logged in
 
-//INDEX
+//RENTALS INDEX
 app.get('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all of your rentals by searching movies collection and returning though being rented with your id as renter
   db.Rental.find({renter: req.session.id}, function (err, rentals){
     console.log(rentals);
-    db.Rental.find({owner: req.session.id}, function (err, lends) {
+    db.Rental.find({owner: req.session.id}, function (err, lends) { //a rental where you are the owner
       console.log(lends);
       res.render('rentals/index', {pageTitle: "Rentals", currentUserName: currentUserName, rentals: rentals, lends: lends});
     });
@@ -448,16 +448,22 @@ app.get('/rentals/new', routeMiddleware.ensureLoggedIn, function(req,res){
 app.post('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //makes the rental property
   //make condition that prevents user from creating multiple requests
-
-  db.Rental.create(req.body.rental, function (err, rental) {
-    if(err) {
-      console.log(err);
+  db.Rental.find({renter: req.session.id}).where({movie: req.body.rental.movie}).where({active: true}).exec(function (err, rental) {
+    console.log(rental);
+    if(rental.length !== 0) {
       res.redirect('/rentals');
     } else {
-      db.Movie.findById(req.body.rental.movie, function (err, movie) {
-        movie.rented = "pending";
-        movie.save();
-        res.redirect('/rentals');
+      db.Rental.create(req.body.rental, function (err, rental) {
+        if(err) {
+          console.log(err);
+          res.redirect('/rentals');
+        } else {
+          db.Movie.findById(req.body.rental.movie, function (err, movie) {
+            movie.rented = "pending";
+            movie.save();
+            res.redirect('/rentals');
+          });
+        }
       });
     }
   });
@@ -470,14 +476,19 @@ app.get('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 
 //EDIT
 app.get('/rentals/:id/edit', function(req,res){
-  //show proposed rentals on owner side and decline or accept (search for own movies with rental setting as "pending", which changes the rental status to true or false, 
+  //show proposed rentals on owner side and decline or accept (search for own movies with rental setting as "pending", which changes the rental status to true or false,
 
 });
 
 //UPDATE
 app.put('/rentals/:id', function(req,res){
   //if accepted rental request, then check to see if any other people are requesting a rental, remove from their borrowed array and message them they've been declined?
-  //
+  if(req.body.rental.rentalAccepted == "false") {
+    //change to true and update the rental (date.now(), and change movie.rented to equal "true"; remove any other active rentals that want the same movie;
+    db.Rental.findById(req.)
+  } else {
+    //for returned rentals; change active to false, movie.rented to false, set date returned to now
+  }
 });
 
 //DELETE
