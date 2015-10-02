@@ -208,22 +208,6 @@ app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
   db.Movie.findById(req.params.id, function (err,movie) {
     var title = encodeURIComponent(movie.title);
-    // request('http://instantwatcher.com/search?content_type=1+2&content_type=1+2&q='+ title +'&sort=&view=synopsis&infinite=on', function (error, response, html){
-    //   if(!error && response.statusCode == 200) {
-    //     var $ = cheerio.load(html);
-    //     console.log($('span.match-count').text());
-    //     // console.log($('span.match-count').text().split(' ')[0]);
-    //     // if(!(parseInt($('span.match-count').text().split(' ')[0]))) {
-    //     if($('span.match-count').text() === '0 matches') {
-    //       console.log('no results found');
-    //     } else {
-    //       console.log('You can stream it!');
-    //       var synopsis = $('span.synopsis').text();
-    //       console.log(synopsis);
-    //     }
-    //     // console.log(html);
-    //   }
-    // });
     res.render('movies/show', {movie:movie, title: title, pageTitle: "Movie Details", currentUserName: currentUserName});
   });
 
@@ -483,12 +467,31 @@ app.get('/rentals/:id/edit', function(req,res){
 //UPDATE
 app.put('/rentals/:id', function(req,res){
   //if accepted rental request, then check to see if any other people are requesting a rental, remove from their borrowed array and message them they've been declined?
-  if(req.body.rental.rentalAccepted == "false") {
     //change to true and update the rental (date.now(), and change movie.rented to equal "true"; remove any other active rentals that want the same movie;
-    db.Rental.findById(req.)
-  } else {
+  db.Rental.findById(req.params.id).populate('movie').exec( function (err, rental) {
+    if(rental.rentalAccepted === false) {
+      rental.rentalAccepted = true;
+      rental.dateRented = Date.now();
+      rental.movie.rented = "true";
+      rental.save();
+      // (function callback(rental) {
+      //   db.Rental.find({movie: rental.movie._id}).where({rentalAccepted: false}).remove(function (err, removed) {
+      //     console.log(removed);
+      //     res.redirect('/rentals');
+      //   });
+      // })();
+      res.redirect('/rentals');
+    } else {
     //for returned rentals; change active to false, movie.rented to false, set date returned to now
-  }
+      db.Rental.findById(req.params.id).populate('movie').exec(function (err, rental){
+        rental.active = false;
+        rental.movie.rented = "false";
+        rental.dateReturned = Date.now();
+        rental.save();
+        res.redirect('/rentals');
+      });
+    }
+  });
 });
 
 //DELETE
@@ -508,9 +511,9 @@ app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   });
 });
 
-// app.get('*', function(req,res){
-//   res.render('404');
-// });
+app.get('*', function(req,res){
+  res.render('404');
+});
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("Now listening on port 3000");

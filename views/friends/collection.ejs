@@ -27,7 +27,9 @@
                      <input type="hidden" name='rental[moviePoster]' value="<%=movie.poster %>">
                      <input type="hidden" name='rental[movie]' value="<%=movie._id %>">
                      <input type="hidden" name='rental[owner]' value="<%=friend._id%>">
+                     <input type="hidden" name='rental[ownerName]' value="<%=friend.username%>">
                      <input type="hidden" name='rental[renter]' value="<%=user_id%>">
+                     <input type="hidden" name='rental[renterName]' value="<%=currentUserName%>">
                      <button type="submit" class="btn btn-info btn-lg">Rent</button>
                    </form>
                    <% } %>
