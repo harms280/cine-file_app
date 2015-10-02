@@ -16,10 +16,10 @@ var movieSchema = new mongoose.Schema({
   thumbnailPoster: String, //from omdb
   // imdbPage: String,
   format: {
-    bluRay: Boolean,
-    dvd: Boolean,
-    vhs: Boolean,
-    other: Boolean
+    bluRay: String,
+    dvd: String,
+    vhs: String,
+    other: String
   }, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
   notes: String,

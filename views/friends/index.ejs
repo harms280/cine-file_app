@@ -31,11 +31,18 @@
                 <form action="/friends/<%= friend.id%>?_method=DELETE" method="POST">
                   <button class="btn btn-danger">Decline</button>
                 </form>
-          </div>
               <% } %>
+          </div>
     </div>
     <% } %>
-  <%  })%>  
+  <%  })%> 
+  <form action="/friends/new" class="form-inline">
+  <div class="form-group">
+    <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
+    <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
+    
+  </div>
+</form> 
 </div>
 
 <% include ../partials/footer %>

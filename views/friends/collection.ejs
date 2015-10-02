@@ -17,7 +17,7 @@
             <% movies.forEach(function(movie) { %>
                <tr>
                 <td class="col-md-3 text-center vert-align"><img src="<%=movie.poster %>" alt="movie poster"></td>
-                 <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
+                 <td class="col-md-3 vert-align"><h4><a href="/movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
                  <td class="col-md-3 vert-align"><h4><%= movie.year %></h4></td>
                  <td class="col-md-3 vert-align">
                  <% if(movie.rented != "true" || movie.rented != "pending") { %>

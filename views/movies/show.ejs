@@ -9,15 +9,16 @@
   <p>Year: <%= movie.year %></p>
   <p>Actors: <%= movie.actors %></p>
   <p>Plot: <%= movie.plot %></p>
-  <p>Format: <%= movie.format %></p> <!-- if true, then list-->
-  <p>Watch: <%= movie.watched %></p>
+  <p>Format: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
+  <p>Watched: <%= movie.watched %></p>
   <p>Notes: <%= movie.notes %></p>
   <p>Date Added to Collection: <%= movie.dateAdded %></p>
   <p>Your Rating: <%= movie.userRating %></p>
   <p>Rented: <%= movie.rented %></p>
 
-
+  <% if(user_id == movie.owner.toString()) { %>
   <a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a>
+  <% } %>
   <a href="http://www.canistream.it/search/movie/<%=title%>" class="btn btn-info">Check Streaming Status</a>
 </div>
 

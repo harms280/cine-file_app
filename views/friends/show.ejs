@@ -1,5 +1,6 @@
 <% include ../partials/header %>
 
+<div class="jumbotron">
   <img src="<%=friend.avatar%>" alt="profile pic">
   <p>username: <%= friend.username %></p>
   <p>email: <%= friend.email %></p>
@@ -7,6 +8,7 @@
   <p>City: <%= friend.city %></p>
   <p>State: <%= friend.state %></p>
 
-  <a href="/friends/<%=friend._id%>/collection"><%=friend.username%>'s Collection</a>
+  <a href="/friends/<%=friend._id%>/collection" class="btn btn-info"><%=friend.username%>'s Collection</a>
+</div>
 
 <% include ../partials/footer %>
