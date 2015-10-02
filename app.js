@@ -207,16 +207,24 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
   db.Movie.findById(req.params.id, function (err,movie) {
-    // request('http://instantwatcher.com/search?content_type=1+2&q='+movie.title, function (error, response, html) {
-    //   if (!error && response.statusCode == 200) {
+    var title = encodeURIComponent(movie.title);
+    // request('http://instantwatcher.com/search?content_type=1+2&content_type=1+2&q='+ title +'&sort=&view=synopsis&infinite=on', function (error, response, html){
+    //   if(!error && response.statusCode == 200) {
     //     var $ = cheerio.load(html);
-    //     $('span.comhead').each(function(i, element){
-    //       var a = $(this).prev();
-    //       console.log(a.text());
-    //     });
+    //     console.log($('span.match-count').text());
+    //     // console.log($('span.match-count').text().split(' ')[0]);
+    //     // if(!(parseInt($('span.match-count').text().split(' ')[0]))) {
+    //     if($('span.match-count').text() === '0 matches') {
+    //       console.log('no results found');
+    //     } else {
+    //       console.log('You can stream it!');
+    //       var synopsis = $('span.synopsis').text();
+    //       console.log(synopsis);
+    //     }
+    //     // console.log(html);
     //   }
     // });
-    res.render('movies/show', {movie:movie, pageTitle: "Movie Details", currentUserName: currentUserName});
+    res.render('movies/show', {movie:movie, title: title, pageTitle: "Movie Details", currentUserName: currentUserName});
   });
 
 });
@@ -422,6 +430,11 @@ app.delete('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 //INDEX
 app.get('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all of your rentals by searching movies collection and returning though being rented with your id as renter
+  db.Rental.find({renter: req.session.id}, function (err, rentals){
+    db.Rental.find({owner: req.session.id}, function (err, lends) {
+      res.render('rentals/index', {pageTitle: "Rentals", currentUserName: currentUserName, rentals: rentals, lends: lends});
+    });
+  });
 });
 
 //NEW
@@ -431,7 +444,19 @@ app.get('/rentals/new', routeMiddleware.ensureLoggedIn, function(req,res){
 
 //CREATE
 app.post('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
-  //makes the rental property 
+  //makes the rental property
+  db.Rental.create(req.body.rental, function (err, rental) {
+    if(err) {
+      console.log(err);
+      res.redirect('/rentals');
+    } else {
+      db.Movie.findById(req.body.rental.movie, function (err, movie) {
+        movie.rented = "pending";
+        movie.save();
+        res.redirect('/rentals');
+      });
+    }
+  });
 });
 
 //SHOW

@@ -7,6 +7,6 @@
   <p>City: <%= friend.city %></p>
   <p>State: <%= friend.state %></p>
 
-  <a href="/friends/:id/collection"><%=friend.username%>'s Collection</a>
+  <a href="/friends/<%=friend._id%>/collection"><%=friend.username%>'s Collection</a>
 
 <% include ../partials/footer %>

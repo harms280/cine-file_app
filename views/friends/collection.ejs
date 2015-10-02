@@ -19,13 +19,18 @@
                 <td class="col-md-3 text-center vert-align"><img src="<%=movie.poster %>" alt="movie poster"></td>
                  <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
                  <td class="col-md-3 vert-align"><h4><%= movie.year %></h4></td>
-                 <td class="col-md-3"><form action="/rentals" method="POST">
-                   <input type="hidden" name='rental[movieYear]' value="<%=movie.year %>">
-                   <input type="hidden" name='rental[movieTitle]' value="<%=movie.title %>">
-                   <input type="hidden" name='rental[movie]' value="<%=movie._id %>">
-                   <input type="hidden" name='rental[owner]' value="<%=req.session.id%>">
-                   <input type="hidden" name='rental[movieTitle]' value="<%=movie.title %>">
-                 </form></td>
+                 <td class="col-md-3 vert-align">
+                 <% if(movie.rented != "true") { %>
+                   <form action="/rentals" method="POST">
+                     <input type="hidden" name='rental[movieYear]' value="<%=movie.year %>">
+                     <input type="hidden" name='rental[movieTitle]' value="<%=movie.title %>">
+                     <input type="hidden" name='rental[movie]' value="<%=movie._id %>">
+                     <input type="hidden" name='rental[owner]' value="<%=friend._id%>">
+                     <input type="hidden" name='rental[renter]' value="<%=user_id%>">
+                     <button type="submit" class="btn btn-info btn-lg">Rent</button>
+                   </form>
+                   <% } %>
+                 </td>
                  <% if(movie.owner.toString() == user_id ) { %>
                     <td class="vert-align"><a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a></td>
                   <td class="vert-align">
@@ -43,13 +48,6 @@
     </div>
     <div class="row">
       <div class="col-md-5">
-        <form action="/movies/new" class="form-inline">
-        <div class="form-group">
-          <label for="movieSearch">Find Movie to Add: </label>
-          <input type="text" id="movieSearch" name="movieSearch"  class="form-control" placeholder="Search movie title">
-          <button class="btn btn-success" type="submit">Search</button>
-        </div>
-        </form>
       </div>
       <!-- <div class="col-md-5 col-md-offset-2">
       <form action="/sort?_method=put" method="POST">
