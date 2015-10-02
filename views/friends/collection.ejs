@@ -20,10 +20,11 @@
                  <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
                  <td class="col-md-3 vert-align"><h4><%= movie.year %></h4></td>
                  <td class="col-md-3 vert-align">
-                 <% if(movie.rented != "true") { %>
+                 <% if(movie.rented != "true" || ) { %>
                    <form action="/rentals" method="POST">
                      <input type="hidden" name='rental[movieYear]' value="<%=movie.year %>">
                      <input type="hidden" name='rental[movieTitle]' value="<%=movie.title %>">
+                     <input type="hidden" name='rental[moviePoster]' value="<%=movie.poster %>">
                      <input type="hidden" name='rental[movie]' value="<%=movie._id %>">
                      <input type="hidden" name='rental[owner]' value="<%=friend._id%>">
                      <input type="hidden" name='rental[renter]' value="<%=user_id%>">

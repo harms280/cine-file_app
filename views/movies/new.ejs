@@ -12,9 +12,14 @@
         <div class="thumbnail" height="412px">
           <a href="/movies/<%= movie.title %>"><img src="https://image.tmdb.org/t/p/original<%=movie.poster_path %>" alt="poster" width="214px" height="317px"></a>
           <div class="caption">
+            <% if(!movie.release_date) { %>
+              <h5 class="text-center"><%= movie.title %></h5>
+            <% } else { %>
             <h5 class="text-center"><%= movie.title %> (<%= movie.release_date.substr(0,4) %>)</h5>
+            <% } %>
            <!-- <div class="row"> -->
            <!-- <div class="col-md-10 col-md-offset-1"> -->
+
             <form action="/movies" method="POST">
               <input type="hidden"  name="title" value="<%= movie.title %>">
               <input type="hidden" name="id" value="<%= movie.id%>">

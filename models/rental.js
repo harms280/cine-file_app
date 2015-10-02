@@ -19,6 +19,7 @@ var rentalSchema = new mongoose.Schema({
   },
   movieTitle: String,
   movieYear: String,
+  moviePoster: String,
   rentalAccepted: {type: Boolean, default: false},
   active: {type: Boolean, default: true},
   dateRented: {type: Date, default: Date.now()}

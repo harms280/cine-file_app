@@ -431,7 +431,9 @@ app.delete('/friends/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 app.get('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all of your rentals by searching movies collection and returning though being rented with your id as renter
   db.Rental.find({renter: req.session.id}, function (err, rentals){
+    console.log(rentals);
     db.Rental.find({owner: req.session.id}, function (err, lends) {
+      console.log(lends);
       res.render('rentals/index', {pageTitle: "Rentals", currentUserName: currentUserName, rentals: rentals, lends: lends});
     });
   });
@@ -445,6 +447,8 @@ app.get('/rentals/new', routeMiddleware.ensureLoggedIn, function(req,res){
 //CREATE
 app.post('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //makes the rental property
+  //make condition that prevents user from creating multiple requests
+  
   db.Rental.create(req.body.rental, function (err, rental) {
     if(err) {
       console.log(err);

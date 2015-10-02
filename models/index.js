@@ -5,3 +5,4 @@ mongoose.set('debug', true);
 
 module.exports.Movie = require('./movie.js');
 module.exports.User = require('./user');
+module.exports.Rental = require('./rental');
