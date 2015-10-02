@@ -448,7 +448,7 @@ app.get('/rentals/new', routeMiddleware.ensureLoggedIn, function(req,res){
 app.post('/rentals', routeMiddleware.ensureLoggedIn, function(req,res){
   //makes the rental property
   //make condition that prevents user from creating multiple requests
-  
+
   db.Rental.create(req.body.rental, function (err, rental) {
     if(err) {
       console.log(err);
@@ -483,6 +483,18 @@ app.put('/rentals/:id', function(req,res){
 //DELETE
 app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //remove a rental from the borrowed array of user and set rental status to false
+  db.Rental.findByIdAndRemove(req.params.id, function (err, movie) {
+    db.Movie.findById(movie.movie, function (err, movie) {
+      if(err) {
+        console.log(err);
+        res.redirect('/rentals');
+      } else {
+        movie.rented = "false";
+        movie.save();
+        res.redirect('/rentals');
+      }
+    });
+  });
 });
 
 // app.get('*', function(req,res){
