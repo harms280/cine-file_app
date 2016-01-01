@@ -52,7 +52,7 @@ app.get('/about', function(req,res){
 });
 
 app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-  res.render('users/login', {pageTitle: "Login Page", loginPage: true});
+  res.render('users/login', {pageTitle: "Login Page"});
 });
 
 app.post('/login', function(req,res){
