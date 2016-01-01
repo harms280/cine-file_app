@@ -268,6 +268,7 @@ app.get('/friends', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 //NEW
+//This is used when searching for a new friend
 app.get('/friends/new', routeMiddleware.ensureLoggedIn, function(req,res){
   //go here when you want to send friend request, search db for friends that aren't in current list by their ids
   if(!req.query.friendSearch) {
@@ -277,6 +278,10 @@ app.get('/friends/new', routeMiddleware.ensureLoggedIn, function(req,res){
     var friended;
     // console.log(friend)
     db.User.findOne({username: req.query.friendSearch}).exec(function(err,friend) {
+      if(err) res.redirect('/users');
+      if(friend === null) {
+        
+      }
       db.User.findById(req.session.id, function (err, user) {
         // console.log("This is current user", user);
         // console.log("This is friend",friend);

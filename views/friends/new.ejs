@@ -2,6 +2,8 @@
 
 <h1>Request a Friend</h1>
 
+<% if(friend) { %>
+
 <h3>Confirm friend:</h3>
 
 <p>username: <%= friend.username %></p>
@@ -20,5 +22,9 @@
   <input type="hidden" name="friend[username]" value="<%= friend.username %>">
   <input type="submit" value="Send Friend Request" class="btn btn-primary">
 </form>
+<% } %>
+<% } else { %>
+<h3>NO MATCHES FOUND</h3>
+<img src="https://media2.giphy.com/media/PW24kUmUv3vlm/200.gif" alt="sad giph">
 <% } %>
 <% include ../partials/footer %>
