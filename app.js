@@ -23,7 +23,7 @@ var cheerio = require('cheerio');
 
 var request = require('request');
 
-var mdb = require('moviedb')('af10843e745e3689a2bdd1907d1de30f');
+var mdb = require('moviedb')('af10843e745e3689a2bdd1907d1de30f'); //add env for api number
 
 var morgan = require('morgan');
 app.use(morgan('tiny'));
@@ -52,7 +52,7 @@ app.get('/about', function(req,res){
 });
 
 app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-  res.render('users/login', {pageTitle: "Login Page"});
+  res.render('users/login', {pageTitle: "Login Page", loginPage: true});
 });
 
 app.post('/login', function(req,res){

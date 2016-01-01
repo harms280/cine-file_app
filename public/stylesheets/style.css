@@ -1,6 +1,17 @@
 body#catchall {
   /*background-image: url('http://wallpoper.com/images/00/26/43/92/hal-9000_00264392.jpg');*/
-  background: url('http://wallpoper.com/images/00/26/43/92/hal-9000_00264392.jpg') no-repeat center center fixed; 
+  background: url('../pics/hal-9000_catchall.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /*background-size: cover;
+  background-position: fixed;*/
+}
+
+body#loginPage {
+  /*background-image: url('http://wallpoper.com/images/00/26/43/92/hal-9000_00264392.jpg');*/
+  background: url('../pics/strangelove_splash.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
