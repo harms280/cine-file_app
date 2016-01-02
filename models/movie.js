@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var Rental = require('./rental');
 
 mongoose.set('debug', true);
 
@@ -44,6 +45,10 @@ var movieSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Rental'
   }]
+});
+
+movieSchema.pre("remove", function(callback){
+  Rental.remove({movie: this._id});
 });
 
 var Movie = mongoose.model('Movie',movieSchema);

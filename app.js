@@ -216,6 +216,7 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
   db.Movie.findById(req.params.id, function (err,movie) {
+    
     var title = encodeURIComponent(movie.title);
     res.render('movies/show', {movie:movie, title: title, pageTitle: "Movie Details", currentUserName: currentUserName});
   });
@@ -279,9 +280,6 @@ app.get('/friends/new', routeMiddleware.ensureLoggedIn, function(req,res){
     // console.log(friend)
     db.User.findOne({username: req.query.friendSearch}).exec(function(err,friend) {
       if(err) res.redirect('/users');
-      if(friend === null) {
-        
-      }
       db.User.findById(req.session.id, function (err, user) {
         // console.log("This is current user", user);
         // console.log("This is friend",friend);
