@@ -3,46 +3,64 @@
   <h1>Friends List</h1>
 </div>
 <div class="jumbotron">
-  <h3>Your Friends:</h3>
-  <% user.friends.forEach(function(friend) { %>
-
-  <% if(friend.requestAccepted) { %>
-    <div class="row post">
-          
-          <div class="col-md-7">
-               <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
-          </div>
-    </div>
-    <% } %>
-  <%  })%>
-
-  <h3>Pending Requests:</h3>
-  <% user.friends.forEach(function(friend) { %>
-
-  <% if(!friend.requestAccepted) { %>
-    <div class="row post">
-          
-          <div class="col-md-7">
-               <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
-               <% if(friend.receiver) { %>
-                <form action="/friends/<%= friend.id%>?_method=PUT" method="POST">
-                  <button class="btn btn-success" type="submit">Accept</button>
-                </form>
-                <form action="/friends/<%= friend.id%>?_method=DELETE" method="POST">
-                  <button class="btn btn-danger">Decline</button>
-                </form>
-              <% } %>
-          </div>
-    </div>
-    <% } %>
-  <%  })%> 
-  <form action="/friends/new" class="form-inline">
-  <div class="form-group">
-    <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
-    <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
+  <div class="container">
     
+    <div class="row">
+      <h3>Your Friends:</h3>
+      <% user.friends.forEach(function(friend) { %>
+
+      <% if(friend.requestAccepted) { %>
+        <div class="col-xs-12 col-md-6 col-lg-3">
+          <div class="thumbnail" height="412px">
+            <img src="<%= friend._id.avatar %>" alt="" class="img-responsive friendPic">
+            <div class="caption">
+              <p class="text-center"><a href="/friends/<%= friend.id %>"><strong><%= friend.username %></strong></a></p>
+            </div>
+            
+          </div>
+        </div>
+
+        <!-- <div class="row post">
+              
+              <div class="col-md-7">
+                   <img src="<%= friend._id.avatar %>" alt="" class="img-responsive friendPic "> <p><a href="/friends/<%= friend.id %>"><strong><%= friend.username %></strong></a></p>
+              </div>
+        </div>
+        -->
+        <% } %>
+      <%  })%>
+    </div>
+    <div class="row">
+      <h3>Pending Requests:</h3>
+      <% user.friends.forEach(function(friend) { %>
+
+      <% if(!friend.requestAccepted) { %>
+        <div class="row post">
+              
+              <div class="col-md-7">
+                   <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
+                   <% if(friend.receiver) { %>
+                    <form action="/friends/<%= friend.id%>?_method=PUT" method="POST">
+                      <button class="btn btn-success" type="submit">Accept</button>
+                    </form>
+                    <form action="/friends/<%= friend.id%>?_method=DELETE" method="POST">
+                      <button class="btn btn-danger">Decline</button>
+                    </form>
+                  <% } %>
+              </div>
+        </div>
+        <% } %>
+      <%  })%> 
+    </div>
+
+    <form action="/friends/new" class="form-inline">
+    <div class="form-group">
+      <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
+      <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
+      
+    </div>
+  </form> 
   </div>
-</form> 
 </div>
 
 <% include ../partials/footer %>

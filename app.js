@@ -265,7 +265,7 @@ app.delete('/movies/:id', routeMiddleware.ensureCorrectUserForMovie, function(re
 //INDEX
 app.get('/friends', routeMiddleware.ensureLoggedIn, function(req,res){
   //List of logged in user's friends, which will be sorted according to matching the friends accepted true of logged in user
-  db.User.findById(req.session.id).populate('friends.id').exec(function (err,user){
+  db.User.findById(req.session.id).populate('friends._id').exec(function (err,user){
     console.log(user);
     res.render('friends/index', {currentUserName: currentUserName, pageTitle: "Friends List", user: user});
   });
