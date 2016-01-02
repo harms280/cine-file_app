@@ -5,6 +5,7 @@
   </div>
   <div class="container">
     <div class ="jumbotron">
+
       <h2>Currently Renting: </h2>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -21,7 +22,7 @@
                  <tr>
                   <td class="vert-align"><%= movie.ownerName %></td>
                   <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.movieTitle %></a></h4></td>
+                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
                    <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
                    <% if(movie.owner.toString() == user_id ) { %>
                     <td class="vert-align">
@@ -38,6 +39,7 @@
         </table>
         </div>
       </div>
+
       <h2>Rentals Waiting Approval: </h2>
       <div class="row">
         <div class="container">
@@ -57,7 +59,7 @@
                      <tr>
                      <td class="vert-align"><%= movie.ownerName %></td>
                       <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                       <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.movieTitle %></a></h4></td>
+                       <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
                        <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
                         <td class="vert-align">
                           <form action="/rentals/<%= movie._id %>?_method=DELETE" method="POST">
@@ -74,6 +76,7 @@
       </div>
       </div>
     </div>
+
     <div class="jumbotron">
       <h2>Currently Lending: </h2>
       <div class="row">
@@ -92,7 +95,7 @@
                  <tr>
                   <td class="col-md-1 vert-align"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
                   <td class="col-md-3 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                   <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.movieTitle %></a></h4></td>
+                   <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
                    <td class="col-md-3 vert-align"><h4><%= movie.movieYear %></h4></td>
                    <td class="col-md-2 vert-align"><form action="/rentals/<%=movie.id%>?_method=put" method="POST"><button type="submit" class="btn btn-primary">Returned</button></form></td>
                   </tr>
@@ -102,6 +105,7 @@
         </table>
         </div>
       </div>
+
       <h2>Rental Requests Waiting Approval: </h2>
       <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -118,7 +122,7 @@
                  <tr>
                  <td class="vert-align"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
                   <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie._id %>"><%= movie.movieTitle %></a></h4></td>
+                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
                    <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
                    <td class="vert-align">
                      <form action="/rentals/<%=movie.id%>?_method=PUT" method="POST">
