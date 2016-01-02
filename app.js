@@ -65,7 +65,7 @@ app.post('/login', function(req,res){
       currentUserName = user.username;
       console.log(user.username);
       console.log(currentUserName);
-      res.redirect('/users');
+      res.redirect('/movies');
     }
   });
 });
@@ -86,7 +86,7 @@ app.post('/signup', function(req,res){
       currentUserName = user.username;
       console.log(user.username);
       console.log(currentUserName);
-      res.redirect('/users');
+      res.redirect('/movies');
     }
   });
 });
