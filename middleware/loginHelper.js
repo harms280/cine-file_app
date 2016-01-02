@@ -13,6 +13,7 @@ var loginHelpers = function (req, res, next) {
   };
 
   res.locals.user_id = req.session.id;
+  res.locals.errors= "";
   next();
 };
 

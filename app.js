@@ -162,6 +162,9 @@ app.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,response){
   //add new movie to your collection, run a request for the movie title that user typed in, this will search the apis for the right movie by title, for you to select
   //when you select movie, it makes the proper requests to make movie object when you post it
   // var searchResults = [];
+  if(req.query.movieSearch.length === 0) {
+    response.redirect('/movies');
+  }
   var titleSearch = encodeURIComponent(req.query.movieSearch);
   mdb.searchMovie({query: titleSearch}, function(err, res){
     var searchResults =  res.results.filter(function(el,i) {
