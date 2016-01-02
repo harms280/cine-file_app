@@ -44,7 +44,7 @@ var currentUserName;
 //ROUTE
 
 app.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
-  res.redirect('/users');
+  res.redirect('/movies');
 });
 
 app.get('/about', function(req,res){

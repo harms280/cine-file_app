@@ -43,11 +43,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="/">My Collection</a></li>
+        
         <% if(user_id != null) { %>
-          <li><a href="/users/<%=user_id%>">Profile</a></li>
-          <li><a href="/movies">Movie Collection</a></li>
           <li><a href="/friends">Friends</a></li>
           <li><a href="/rentals">Rentals</a></li>
         <% } %>
@@ -61,8 +59,11 @@
       <ul class="nav navbar-nav navbar-right">
         <% if(user_id != null) { %>
           <p class="navbar-text">Logged in as: <strong><%= currentUserName %></strong></p>
+          <li><a href="/about">About</a></li>
+          <li><a href="/users/<%=user_id%>">My Profile</a></li>
           <li><a href="/logout">Logout</a></li>
           <% } else { %>
+          <li><a href="/about">About</a></li>
           <li><a href="/login">Login</a></li>
           <% } %>
         <!-- <li><a href="/contact">Contact</a></li> -->
