@@ -68,3 +68,8 @@ div#aboutJumbo, div#signupJumbo {
 .poster {
   width: 185px;
 }
+
+img#profilePic {
+  max-height: 300px;
+  box-shadow: 0 0 30px black;
+}

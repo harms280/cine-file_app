@@ -2,13 +2,13 @@
 <div class="jumbotron">
   <div class="container">
     <div class="row">
-      <!-- <div class="col-md-5 col-md-offset-1"> -->
-        <img src="<%=profile.avatar%>" alt="profile pic">
-          <p>username: <%= profile.username %></p>
-          <p>email: <%= profile.email %></p>
-          <p>Name: <%= profile.firstName%> <%= profile.lastName%></p>
-          <p>City: <%= profile.city %></p>
-          <p>State: <%= profile.state %></p>
+      <!-- <div class="col-md-10 col-md-offset-2"> -->
+        <img id="profilePic" src="<%=profile.avatar%>" alt="profile pic" class="center-block img-responsive img-thumbnail">
+          <p><strong>username</strong>: <%= profile.username %></p>
+          <p><strong>email</strong>: <%= profile.email %></p>
+          <p><strong>Name</strong>: <%= profile.firstName%> <%= profile.lastName%></p>
+          <p><strong>City</strong>: <%= profile.city %></p>
+          <p><strong>State</strong>: <%= profile.state %></p>
 
         <a href="/users/<%=user_id%>/edit" class="btn btn-warning">Edit Profile</a>
       <!-- </div> -->
