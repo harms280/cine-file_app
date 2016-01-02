@@ -31,7 +31,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="https://cdn2.iconfinder.com/data/icons/cinema-and-television/500/Entertainment_film_film_reel_film_roll_movie_reel_roll_theate-512.png" alt="brand" max-width="50px" height="50px" class="pull-left">
+      <% if(pageTitle === "Login Page") {%>
+      <img src="https://cdn2.iconfinder.com/data/icons/cinema-and-television/500/Entertainment_film_film_reel_film_roll_movie_reel_roll_theate-512.png" alt="brand" max-width="50px" height="50px" class="pull-left animated rotateIn"><p class="navbar-text">CINEFILE</p>
+      <%} else { %>
+      <img src="https://cdn2.iconfinder.com/data/icons/cinema-and-television/500/Entertainment_film_film_reel_film_roll_movie_reel_roll_theate-512.png" alt="brand" max-width="50px" height="50px" class="pull-left"><p class="navbar-text">CINEFILE</p>
+      <% } %>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
