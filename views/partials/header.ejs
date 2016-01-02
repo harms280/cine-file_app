@@ -13,6 +13,9 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="/stylesheets/animate.min.css">
 </head>
@@ -43,11 +46,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/">My Collection</a></li>
-        
         <% if(user_id != null) { %>
-          <li><a href="/friends">Friends</a></li>
-          <li><a href="/rentals">Rentals</a></li>
+          <li><a href="/"><span class="glyphicon glyphicon-home"></span> My Collection</a></li>
+          <li><a href="/friends"><i class="fa fa-users"></i> Friends</a></li>
+          <li><a href="/rentals"><span class="glyphicon glyphicon-film"></span> Rentals</a></li>
         <% } %>
       </ul>
       <!-- <form class="navbar-form navbar-left" role="search" action='/book'>
@@ -60,7 +62,7 @@
         <% if(user_id != null) { %>
           <p class="navbar-text">Logged in as: <strong><%= currentUserName %></strong></p>
           <li><a href="/about">About</a></li>
-          <li><a href="/users/<%=user_id%>">My Profile</a></li>
+          <li><a href="/users/<%=user_id%>"><span class="glyphicon glyphicon-user"></span> My Profile</a></li>
           <li><a href="/logout">Logout</a></li>
           <% } else { %>
           <li><a href="/about">About</a></li>
