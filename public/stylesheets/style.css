@@ -27,6 +27,8 @@ div#loginJumbo {
   -webkit-animation-delay: .5s;
   -moz-animation-delay: .5s;
   -o-animation-delay: .5s;
+  background: rgb(0, 0, 0); /* This is for ie8 and below */
+  background: rgba(0, 0, 0, 0.5); 
   /*-vendor-animation-iteration-count: infinite;*/
 }
 
