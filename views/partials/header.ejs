@@ -16,9 +16,11 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
   <link rel="stylesheet" href="/stylesheets/animate.min.css">
 </head>
-<% if(pageTitle === "Login Page") { %>
+<% if(pageTitle === "Login Page" || pageTitle === "Signup Page") { %>
 <body id="loginPage">
-<% } else { %>
+<% } else if (pageTitle === "About Page"){ %>
+<body id="aboutPage">
+<% } else {%>
 <body>
 <% } %>
 <nav class="navbar navbar-default">

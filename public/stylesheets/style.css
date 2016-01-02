@@ -20,6 +20,14 @@ body#loginPage {
   background-position: fixed;*/
 }
 
+body#aboutPage {
+  background: url('../pics/thirdman_about.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 div#loginJumbo {
   -webkit-animation-duration: 1s;
   -moz-animation-duration: 1s;
@@ -30,6 +38,11 @@ div#loginJumbo {
   background: rgb(0, 0, 0); /* This is for ie8 and below */
   background: rgba(0, 0, 0, 0.5); 
   /*-vendor-animation-iteration-count: infinite;*/
+}
+
+div#aboutJumbo, div#signupJumbo {
+  background: rgb(0, 0, 0); /* This is for ie8 and below */
+  background: rgba(0, 0, 0, 0.7);
 }
 
 .thumbnail a>img {
