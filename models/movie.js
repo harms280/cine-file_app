@@ -24,7 +24,7 @@ var movieSchema = new mongoose.Schema({
   }, //Blu Ray, DVD, VHS, film, digital, other???
   watched: Boolean,
   notes: String,
-  dateAdded: Date,
+  dateAdded: String,
   userRating: Number, //out of 10 stars? or 5 with .5 increments?
   backgroundImages: Array,
   rented: {type: String, default: "false"}, //false, pending, or true

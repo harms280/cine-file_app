@@ -14,12 +14,20 @@
     <p><strong>Actors</strong>: <%= movie.actors %></p>
     <p><strong>Plot</strong>: <%= movie.plot %></p>
     <p><strong>Format</strong>: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
-    <p><strong>Watched</strong>: <%= movie.watched %></p>
+    <!-- <p><strong>Watched</strong>: <%= movie.watched %></p> -->
+    <% if(movie.notes) { %>
     <p><strong>Notes</strong>: <%= movie.notes %></p>
+    <% } %>
     <p><strong>Date Added to Collection</strong>: <%= movie.dateAdded %></p>
+    <% if(movie.userRating) { %>
     <p><strong>Owner's Rating</strong>: <%= movie.userRating %></p>
-    <p><strong>Rented</strong>: <%= movie.rented %></p>
-
+    <% } %>
+    <% if(movie.rented === "true") { %>
+    <h3><span class="label label-danger">Rented</span></h3>
+    <% } else { %>
+    <h3><span class="label label-success">Available</span></h3>
+    <% } %>
+    <br>
     <% if(user_id == movie.owner.toString()) { %>
       <a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a>
     <% } %>

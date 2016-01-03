@@ -21,7 +21,9 @@ var session = require('cookie-session');
 
 var cheerio = require('cheerio');
 
-var request = require('request');
+// var request = require('request');
+
+var moment = require('moment');
 
 var mdb = require('moviedb')('af10843e745e3689a2bdd1907d1de30f'); //add env for api number
 
@@ -199,8 +201,8 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
             plot: omdbMovie.Plot,
             poster: "https://image.tmdb.org/t/p/original"+mdbRes.poster_path,
             thumbnailPoster: omdbMovie.Poster,
-            dateAdded: Date.now(),
-            backgroundImages: images.backdrops,
+            dateAdded: moment().format('LL'),
+            backgroundImages: images.backdrops.splice(0,5),
           }, function (err, movie) {
             if(err) {
               console.log(err);

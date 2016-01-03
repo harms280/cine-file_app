@@ -30,12 +30,28 @@
       <div class="form-group">
         <label for="format"> Format: </label>
         <label class="checkbox-inline">
-        
+        <% if(movie.format.bluRay) { %>
+        <input type="checkbox" name="movie[format.bluRay]" id="checkbox1" value="Blu-ray" checked="checked">Blu-ray</label>
+        <% } else { %>
         <input type="checkbox" name="movie[format.bluRay]" id="checkbox1" value="Blu-ray">Blu-ray</label>
+        <% } %>
+        <% if(movie.format.dvd) { %>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.dvd]" id="checkbox2" value="DVD" checked="checked">DVD</label>
+        <% } else { %>
         <label class="checkbox-inline"><input type="checkbox" name="movie[format.dvd]" id="checkbox2" value="DVD">DVD</label>
+        <% } %>
+        <% if(movie.format.vhs) { %>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.vhs]" id="checkbox3" value="VHS" checked="checked">VHS</label>
+        <% } else { %>
         <label class="checkbox-inline"><input type="checkbox" name="movie[format.vhs]" id="checkbox3" value="VHS">VHS</label>
+        <% } %>
+        <% if(movie.format.other) { %>
+        <label class="checkbox-inline"><input type="checkbox" name="movie[format.other]"id="checkbox4" value="Other" checked="checked">Other</label>
+        <% } else { %>
         <label class="checkbox-inline"><input type="checkbox" name="movie[format.other]"id="checkbox4" value="Other">Other</label>
+        <% } %>
       </div>
+      <!--
       <div class="form-group">
         <label for="watched"> Watched: </label>
         
@@ -46,6 +62,7 @@
           <input type="radio" name="movie[watched]" id="inlineRadio1" value="false"> Haven't watched
         </label>
       </div>
+      -->
       <div class="form-group">
         <label for="poster"> Poster: </label>
         <input type="text" id="poster" name="movie[poster]" value="<%= movie.poster %>" class="form-control" placeholder="Enter poster URL">
