@@ -73,6 +73,10 @@ div#aboutJumbo, div#signupJumbo {
   height: 450px;
 }
 
+#item {
+  max-height: 1280px;
+}
+
 img.searchPoster {
   max-height: 317px;
   max-width: 214px;
@@ -92,10 +96,6 @@ img#profilePic {
 img.friendPic {
   max-height: 200px;
   /*max-width: 200px;*/
-}
-
-img.noPoster {
-
 }
 
 .thumbnail {
