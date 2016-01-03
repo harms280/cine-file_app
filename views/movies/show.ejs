@@ -5,6 +5,30 @@
       <h1><%= movie.title %></h1>
   </div>
 </div>
+
+<!-- Carousel -->
+<% if(movie.backgroundImages.length > 0)%>
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <% for(var i = 1; i < movie.backgroundImages.length; i++) { %>
+      <li data-target="#myCarousel" data-slide-to="<%= i %>"></li>
+    <% } %>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="https://image.tmdb.org/t/p/original<%= movie.backgroundImages[0].file_path %>" alt="">
+    </div>
+    <% for(var i = 1; i < movie.backgroundImages.length; i++) { %>
+      <div class="item">
+        <img src="https://image.tmdb.org/t/p/original<%= movie.backgroundImages[i].file_path %>" alt="">
+      </div>
+    <% } %>
+  </div>
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+</div>
+<br>
 <div class="jumbotron">
   <div class="container">
     <img id="showPoster" src="<%=movie.poster%>" alt="profile pic" class="img-responsive pull-right">

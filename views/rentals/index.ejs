@@ -1,144 +1,148 @@
 <% include ../partials/header %>
 
-<div class="page-header">
+<div class="container-fluid">
+  <div class="page-header">
     <h1>My Rentals Collection</h1>
   </div>
-  <div class="container">
-    <div class ="jumbotron">
+</div>
+  
+<div class="container">
+  <div class ="jumbotron">
 
-      <h2>Currently Renting: </h2>
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <table class="table table-striped table-bordered table-condensed text-center">
-            <thead>
-              <th class="text-center">Owner</th>
-              <th class="text-center">Poster</th>
-              <th class="text-center">Title</th>
-              <th class="text-center">Year</th>
-            </thead>
-            <tbody>
-              <% rentals.forEach(function(movie) { %>
-                 <% if(movie.rentalAccepted && movie.active) {%>
-                 <tr>
-                  <td class="vert-align"><%= movie.ownerName %></td>
-                  <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
-                   <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
-                   <% if(movie.owner.toString() == user_id ) { %>
-                    <td class="vert-align">
-                      <form action="/rentals/<%= movie._id %>?_method=DELETE" method="POST">
-                        <button type="submit" class="btn btn-danger">Decline</button>
-                      </form>
-                    </td>
-                    </tr>
-                    <% } %>
-                   <!-- <td><form action="/countries/<%=movie.id%>?_method=delete" method="POST"><button type="submit" class="btn btn-default btn-sm">Delete</button></form></td> -->
-                 <% } %>
-               <% }) %>
-            </tbody>
-        </table>
-        </div>
-      </div>
-
-      <h2>Rentals Waiting Approval: </h2>
-      <div class="row">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-              <table class="table table-striped table-bordered table-condensed text-center">
-                <thead>
-                  <th>Owner</th>
-                  <th class="text-center">Poster</th>
-                  <th class="text-center">Title</th>
-                  <th class="text-center">Year</th>
-                  <th class="text-center">Delete Request</th>
-                </thead>
-                <tbody>
-                  <% rentals.forEach(function(movie) { %>
-                    <% if(!movie.rentalAccepted && movie.active) { %>
-                     <tr>
-                     <td class="vert-align"><%= movie.ownerName %></td>
-                      <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                       <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
-                       <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
-                        <td class="vert-align">
-                          <form action="/rentals/<%= movie._id %>?_method=DELETE" method="POST">
-                            <button type="submit" class="btn btn-danger">Remove Request</button>
-                          </form>
-                        </td>
-                     </tr>
-                     <% } %>
-                   <% }) %>
-                </tbody>
-            </table>
-            </div>
-          </div>
-      </div>
+    <h2>Currently Renting: </h2>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <table class="table table-striped table-bordered table-condensed text-center">
+          <thead>
+            <th class="text-center">Owner</th>
+            <th class="text-center">Poster</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Year</th>
+          </thead>
+          <tbody>
+            <% rentals.forEach(function(movie) { %>
+               <% if(movie.rentalAccepted && movie.active) {%>
+               <tr>
+                <td class="vert-align"><%= movie.ownerName %></td>
+                <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
+                 <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
+                 <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
+                 <% if(movie.owner.toString() == user_id ) { %>
+                  <td class="vert-align">
+                    <form action="/rentals/<%= movie._id %>?_method=DELETE" method="POST">
+                      <button type="submit" class="btn btn-danger">Decline</button>
+                    </form>
+                  </td>
+                  </tr>
+                  <% } %>
+                 <!-- <td><form action="/countries/<%=movie.id%>?_method=delete" method="POST"><button type="submit" class="btn btn-default btn-sm">Delete</button></form></td> -->
+               <% } %>
+             <% }) %>
+          </tbody>
+      </table>
       </div>
     </div>
 
-    <div class="jumbotron">
-      <h2>Currently Lending: </h2>
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <table class="table table-striped table-bordered table-condensed text-center">
-            <thead>
-              <th class="text-center">User Renting</th>
-              <th class="text-center">Poster</th>
-              <th class="text-center">Title</th>
-              <th class="text-center">Year</th>
-              <th class="text-center">Returned</th>
-            </thead>
-            <tbody>
-              <% lends.forEach(function(movie) { %>
-                 <% if(movie.rentalAccepted && movie.active) {%>
-                 <tr>
-                  <td class="col-md-1 vert-align"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
+    <h2>Rentals Waiting Approval: </h2>
+    <div class="row">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <table class="table table-striped table-bordered table-condensed text-center">
+              <thead>
+                <th class="text-center">Owner</th>
+                <th class="text-center">Poster</th>
+                <th class="text-center">Title</th>
+                <th class="text-center">Year</th>
+                <th class="text-center">Delete Request</th>
+              </thead>
+              <tbody>
+                <% rentals.forEach(function(movie) { %>
+                  <% if(!movie.rentalAccepted && movie.active) { %>
+                   <tr>
+                   <td class="vert-align col-md-2"><strong><%= movie.ownerName %></strong></td>
+                    <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
+                     <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
+                     <td class="col-md-1 vert-align"><h4><%= movie.movieYear %></h4></td>
+                      <td class="vert-align">
+                        <form action="/rentals/<%= movie._id %>?_method=DELETE" method="POST">
+                          <button type="submit" class="btn btn-danger">Remove Request</button>
+                        </form>
+                      </td>
+                   </tr>
+                   <% } %>
+                 <% }) %>
+              </tbody>
+          </table>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+
+  <div class="jumbotron">
+    <h2>Currently Lending: </h2>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <table class="table table-striped table-bordered table-condensed text-center">
+          <thead>
+            <th class="text-center">User Renting</th>
+            <th class="text-center">Poster</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Year</th>
+            <th class="text-center">Returned</th>
+          </thead>
+          <tbody>
+            <% lends.forEach(function(movie) { %>
+               <% if(movie.rentalAccepted && movie.active) {%>
+               <tr>
+                <td class="col-md-1 vert-align"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
+                <td class="col-md-3 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
+                 <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
+                 <td class="col-md-3 vert-align"><h4><%= movie.movieYear %></h4></td>
+                 <td class="col-md-2 vert-align"><form action="/rentals/<%=movie.id%>?_method=put" method="POST"><button type="submit" class="btn btn-primary">Returned</button></form></td>
+                </tr>
+               <% } %>
+             <% }) %>
+          </tbody>
+      </table>
+      </div>
+    </div>
+
+    <h2>Rental Requests Waiting Approval: </h2>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <table class="table table-striped table-bordered table-condensed text-center">
+          <thead>
+            <th class="text-center">User Requesting</th>
+            <th class="text-center">Poster</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Year</th>
+          </thead>
+          <tbody>
+            <% lends.forEach(function(movie) { %>
+               <% if(!movie.rentalAccepted && movie.active) { %>
+               <tr>
+                  <td class="vert-align col-md-2 text-center"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
                   <td class="col-md-3 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
                    <td class="col-md-3 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
-                   <td class="col-md-3 vert-align"><h4><%= movie.movieYear %></h4></td>
-                   <td class="col-md-2 vert-align"><form action="/rentals/<%=movie.id%>?_method=put" method="POST"><button type="submit" class="btn btn-primary">Returned</button></form></td>
-                  </tr>
-                 <% } %>
-               <% }) %>
-            </tbody>
-        </table>
-        </div>
-      </div>
-
-      <h2>Rental Requests Waiting Approval: </h2>
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <table class="table table-striped table-bordered table-condensed text-center">
-            <thead>
-              <th>User Requesting</th>
-              <th class="text-center">Poster</th>
-              <th class="text-center">Title</th>
-              <th class="text-center">Year</th>
-            </thead>
-            <tbody>
-              <% lends.forEach(function(movie) { %>
-                 <% if(!movie.rentalAccepted && movie.active) { %>
-                 <tr>
-                 <td class="vert-align"><a href="/friends/<%=movie.renter%>"><%=movie.renterName%></a></td>
-                  <td class="col-md-4 text-center vert-align"><img src="<%=movie.moviePoster %>" alt="movie poster"></td>
-                   <td class="col-md-4 vert-align"><h4><a href="movies/<%= movie.movie %>"><%= movie.movieTitle %></a></h4></td>
-                   <td class="col-md-4 vert-align"><h4><%= movie.movieYear %></h4></td>
-                   <td class="vert-align">
+                   <td class="col-md-1 vert-align"><h4><%= movie.movieYear %></h4></td>
+                   <td class="vert-align col-md-1">
                      <form action="/rentals/<%=movie.id%>?_method=PUT" method="POST">
                       <button type="submit" class="btn btn-success btn-sm">Accept</button>
                      </form>
                    </td>
-                   <td class="vert-align">
+                   <td class="vert-align col-md-1">
                       <form action="/rentals/<%=movie.id%>?_method=delete" method="POST"><button type="submit" class="btn btn-danger btn-sm">Deny</button></form>
                     </td>
-                    </tr>
-                 <% } %>
-               <% }) %>
-            </tbody>
-        </table>
-        </div>
+                  </tr>
+               <% } %>
+             <% }) %>
+          </tbody>
+      </table>
       </div>
     </div>
+  </div>
+</div>
 
 <% include ../partials/footer %>
