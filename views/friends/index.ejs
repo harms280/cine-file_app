@@ -14,22 +14,15 @@
           <div class="thumbnail" height="412px">
             <img src="<%= friend._id.avatar %>" alt="" class="img-responsive friendPic">
             <div class="caption">
-              <p class="text-center"><a href="/friends/<%= friend.id %>"><strong><%= friend.username %></strong></a></p>
+              <p class="text-center"><a href="/friends/<%= friend._id._id %>"><strong><%= friend.username %></strong></a></p>
             </div>
             
           </div>
         </div>
-
-        <!-- <div class="row post">
-              
-              <div class="col-md-7">
-                   <img src="<%= friend._id.avatar %>" alt="" class="img-responsive friendPic "> <p><a href="/friends/<%= friend.id %>"><strong><%= friend.username %></strong></a></p>
-              </div>
-        </div>
-        -->
         <% } %>
       <%  })%>
     </div>
+
     <div class="row">
       <h3>Pending Requests:</h3>
       <% user.friends.forEach(function(friend) { %>

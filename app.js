@@ -184,7 +184,7 @@ app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
   mdb.movieInfo({id: req.body.id}, function(err, mdbRes){
     console.log("mdb result", mdbRes);
     request('http://www.omdbapi.com/?t='+ titleSearch, function (err,response,data){
-      if(!err && response.statusCode == 200) {
+      if(!err && response.statusCode === 200) {
         var omdbMovie = JSON.parse(data);
         // console.log(omdbMovie);
         request('https://api.themoviedb.org/3/movie/'+ req.body.id +'/images?api_key='+ process.env.API_KEY +'&language=en&include_image_language=en,null', function (err, response, result){

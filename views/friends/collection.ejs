@@ -20,8 +20,8 @@
                  <td class="col-md-3 vert-align"><h4><a href="/movies/<%= movie._id %>"><%= movie.title %></a></h4></td>
                  <td class="col-md-3 vert-align"><h4><%= movie.year %></h4></td>
                  <td class="col-md-3 vert-align">
-                 <% if(movie.rented != "true" || movie.rented != "pending") { %>
-                   <form action="/rentals" method="POST">
+                 <% if(movie.rented === "false") { %>
+                  <form action="/rentals" method="POST">
                      <input type="hidden" name='rental[movieYear]' value="<%=movie.year %>">
                      <input type="hidden" name='rental[movieTitle]' value="<%=movie.title %>">
                      <input type="hidden" name='rental[moviePoster]' value="<%=movie.poster %>">
@@ -31,8 +31,10 @@
                      <input type="hidden" name='rental[renter]' value="<%=user_id%>">
                      <input type="hidden" name='rental[renterName]' value="<%=currentUserName%>">
                      <button type="submit" class="btn btn-info btn-lg">Rent</button>
-                   </form>
-                   <% } %>
+                  </form>
+                 <% } else { %>
+                    <h3><span class="label label-danger">RENTED</span></h3>
+                 <% } %>
                  </td>
                  <% if(movie.owner.toString() == user_id ) { %>
                     <td class="vert-align"><a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a></td>

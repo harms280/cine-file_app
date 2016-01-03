@@ -69,14 +69,14 @@ div#aboutJumbo, div#signupJumbo {
   width: 185px;
 }
 
-img#profilePic, {
+img#profilePic {
   max-height: 300px;
   box-shadow: 0 0 30px black;
 }
 
 img.friendPic {
   max-height: 200px;
-  max-width: 200px;
+  /*max-width: 200px;*/
 }
 
 .thumbnail {

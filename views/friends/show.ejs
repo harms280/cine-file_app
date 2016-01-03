@@ -1,14 +1,26 @@
 <% include ../partials/header %>
 
-<div class="jumbotron">
-  <img src="<%=friend.avatar%>" alt="profile pic">
-  <p>username: <%= friend.username %></p>
-  <p>email: <%= friend.email %></p>
-  <p>Name: <%= friend.firstName%> <%= friend.lastName%></p>
-  <p>City: <%= friend.city %></p>
-  <p>State: <%= friend.state %></p>
+<div class="container-fluid">
+  <div class="page-header">
+    <h1><%= friend.username%>'s Profile</h1>
+  </div>
+</div>
 
-  <a href="/friends/<%=friend._id%>/collection" class="btn btn-info"><%=friend.username%>'s Collection</a>
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <!-- <div class="col-md-10 col-md-offset-2"> -->
+        <img id="profilePic" src="<%=friend.avatar%>" alt="friend pic" class="center-block img-responsive img-thumbnail">
+          <p><strong>username</strong>: <%= friend.username %></p>
+          <p><strong>email</strong>: <%= friend.email %></p>
+          <p><strong>Name</strong>: <%= friend.firstName%> <%= friend.lastName%></p>
+          <p><strong>City</strong>: <%= friend.city %></p>
+          <p><strong>State</strong>: <%= friend.state %></p>
+
+        <a href="/friends/<%=friend._id%>/collection" class="btn btn-info"><%=friend.username%>'s Collection</a>
+      <!-- </div> -->
+    </div>
+  </div>
 </div>
 
 <% include ../partials/footer %>
