@@ -1,30 +1,43 @@
 <% include ../partials/header %>
 
-<h1>Request a Friend</h1>
+<div class="container-fluid">
+  <div class="page-header">
+    <h1>Request a Friend</h1>
+  </div>
+</div>
 
 <% if(friend) { %>
-
-<h3>Confirm friend:</h3>
-
-<p>username: <%= friend.username %></p>
-<p>email: <%= friend.email %></p>
-<p>Name: <%= friend.firstName%> <%= friend.lastName%></p>
-<p>City: <%= friend.city %></p>
-<p>State: <%= friend.state %></p>
-<!-- <p>Mutual Friends: (have list of mutual friends)</p> -->
-<% if(pending) { %>
-  <h6>FRIEND REQUEST PENDING</h6>
-<% } else if (friended){ %>
-  <h6>You are friends with this person</h6>
+<div class="jumbotron">
+  <div class="container">
+    <h3>Confirm friend:</h3>
+    
+    <img id="profilePic" src="<%=friend.avatar%>" alt="friend pic" class="img-responsive img-thumbnail">
+    <p><strong>Username</strong>: <%= friend.username %></p>
+    <p><strong>Email</strong>: <%= friend.email %></p>
+    <p><strong>Name</strong>: <%= friend.firstName%> <%= friend.lastName%></p>
+    <p><strong>City</strong>: <%= friend.city %></p>
+    <p><strong>State</strong>: <%= friend.state %></p>
+    <!-- <p>Mutual Friends: (have list of mutual friends)</p> -->
+    <% if(pending) { %>
+      <h3><span class="label label-warning">FRIEND REQUEST PENDING</span></h3>
+    <% } else if (friended){ %>
+      <h3><span class="label label-success">You are friends with this person</span></h3>
+    <% } else { %>
+    <form action="/friends" method="POST">
+      <input type="hidden" name="friend[_id]" value="<%= friend._id %>">
+      <input type="hidden" name="friend[username]" value="<%= friend.username %>">
+      <input type="submit" value="Send Friend Request" class="btn btn-primary">
+    </form>  
+  <% } %>  
+  <br>
+  <a href="/friends" class="btn btn-danger">Back</a>
+  </div>
+</div>
 <% } else { %>
-<form action="/friends" method="POST">
-  <input type="hidden" name="friend[_id]" value="<%= friend._id %>">
-  <input type="hidden" name="friend[username]" value="<%= friend.username %>">
-  <input type="submit" value="Send Friend Request" class="btn btn-primary">
-</form>
-<% } %>
-<% } else { %>
-<h3>NO MATCHES FOUND</h3>
-<img src="https://media2.giphy.com/media/PW24kUmUv3vlm/200.gif" alt="sad giph">
+<div class="container">
+  <h3>NO MATCHES FOUND</h3>
+  <img src="https://media2.giphy.com/media/PW24kUmUv3vlm/200.gif" alt="sad giph">
+  <a href="/friends" class="btn btn-danger">Back</a>
+</div>
 <% } %>
 <% include ../partials/footer %>

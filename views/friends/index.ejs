@@ -4,7 +4,15 @@
 </div>
 <div class="jumbotron">
   <div class="container">
-    
+    <div class="row">
+      <form action="/friends/new" class="form-inline">
+        <div class="form-group">
+          <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
+          <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
+          <button class="btn btn-info"><span class="glyphicon glyphicon-search"></span> Search</button>
+        </div>
+      </form> 
+    </div>
     <div class="row">
       <h3>Your Friends:</h3>
       <% user.friends.forEach(function(friend) { %>
@@ -46,13 +54,6 @@
       <%  })%> 
     </div>
 
-    <form action="/friends/new" class="form-inline">
-    <div class="form-group">
-      <label for="friendSearch">Search For Friend: </label> <!-- add email option -->
-      <input type="text" class="form-control" id="friendSearch" name="friendSearch" placeholder="Enter Username">
-      
-    </div>
-  </form> 
   </div>
 </div>
 
