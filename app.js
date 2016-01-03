@@ -498,13 +498,13 @@ app.put('/rentals/:id', function(req,res){
       res.redirect('/rentals');
     } else {
     //for returned rentals; change active to false, movie.rented to false, set date returned to now
-      db.Rental.findById(req.params.id).populate('movie').exec(function (err, rental){
+      // db.Rental.findById(req.params.id).populate('movie').exec(function (err, rental){
         rental.active = false;
         rental.movie.rented = "false";
         rental.dateReturned = Date.now();
         rental.save();
         res.redirect('/rentals');
-      });
+      // });
     }
   });
 });
@@ -512,8 +512,9 @@ app.put('/rentals/:id', function(req,res){
 //DELETE
 app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //remove a rental from the borrowed array of user and set rental status to false
-  db.Rental.findByIdAndRemove(req.params.id, function (err, movie) {
-    db.Movie.findById(movie.movie, function (err, movie) {
+  db.Rental.findByIdAndRemove(req.params.id, function (err, rental) {
+    console.log("Rental object returned after deletion: ", rental);
+    db.Movie.findById(rental.movie, function (err, movie) {
       if(err) {
         console.log(err);
         res.redirect('/rentals');

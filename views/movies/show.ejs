@@ -1,25 +1,30 @@
 <% include ../partials/header %>
-<div class="page-header">
-    <h1><%= movie.title %></h1>
+
+<div class="container-fluid">
+  <div class="page-header">
+      <h1><%= movie.title %></h1>
+  </div>
 </div>
 <div class="jumbotron">
-  <img src="<%=movie.poster%>" alt="profile pic" class="poster img-responsive">
-  <p>Title: <%= movie.title %></p>
-  <p>Director: <%= movie.director %></p>
-  <p>Year: <%= movie.year %></p>
-  <p>Actors: <%= movie.actors %></p>
-  <p>Plot: <%= movie.plot %></p>
-  <p>Format: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
-  <p>Watched: <%= movie.watched %></p>
-  <p>Notes: <%= movie.notes %></p>
-  <p>Date Added to Collection: <%= movie.dateAdded %></p>
-  <p>Your Rating: <%= movie.userRating %></p>
-  <p>Rented: <%= movie.rented %></p>
+  <div class="container">
+    <img id="showPoster" src="<%=movie.poster%>" alt="profile pic" class="img-responsive pull-right">
+    <p><strong>Title</strong>: <%= movie.title %></p>
+    <p><strong>Director</strong>: <%= movie.director %></p>
+    <p><strong>Year</strong>: <%= movie.year %></p>
+    <p><strong>Actors</strong>: <%= movie.actors %></p>
+    <p><strong>Plot</strong>: <%= movie.plot %></p>
+    <p><strong>Format</strong>: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
+    <p><strong>Watched</strong>: <%= movie.watched %></p>
+    <p><strong>Notes</strong>: <%= movie.notes %></p>
+    <p><strong>Date Added to Collection</strong>: <%= movie.dateAdded %></p>
+    <p><strong>Owner's Rating</strong>: <%= movie.userRating %></p>
+    <p><strong>Rented</strong>: <%= movie.rented %></p>
 
-  <% if(user_id == movie.owner.toString()) { %>
-  <a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a>
-  <% } %>
-  <a href="http://www.canistream.it/search/movie/<%=title%>" class="btn btn-info">Check Streaming Status</a>
+    <% if(user_id == movie.owner.toString()) { %>
+      <a href="/movies/<%= movie._id%>/edit" class="btn btn-warning">Edit</a>
+    <% } %>
+    <a href="http://www.canistream.it/search/movie/<%=title%>" class="btn btn-info">Check Streaming Status</a>
+  </div>
 </div>
 
 <% include ../partials/footer %>
