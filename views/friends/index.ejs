@@ -39,12 +39,12 @@
         <div class="row post">
               
               <div class="col-md-7">
-                   <h3><a href="/friends/<%= friend.id %>"><%= friend.username %></a></h3>
+                   <h3><a href="/friends/<%= friend._id._id %>"><%= friend.username %></a></h3>
                    <% if(friend.receiver) { %>
-                    <form action="/friends/<%= friend.id%>?_method=PUT" method="POST">
+                    <form action="/friends/<%= friend._id._id%>?_method=PUT" method="POST">
                       <button class="btn btn-success" type="submit">Accept</button>
                     </form>
-                    <form action="/friends/<%= friend.id%>?_method=DELETE" method="POST">
+                    <form action="/friends/<%= friend._id._id %>?_method=DELETE" method="POST">
                       <button class="btn btn-danger">Decline</button>
                     </form>
                   <% } %>
