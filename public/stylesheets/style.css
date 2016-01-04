@@ -101,3 +101,9 @@ img.friendPic {
 .thumbnail {
   box-shadow: 0 0 30px black;
 }
+
+div#myCarousel  img {
+  /*width: auto;*/
+  /*height: 1280px;*/
+  /*max-height: 1080px;*/
+}
