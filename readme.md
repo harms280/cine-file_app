@@ -5,6 +5,7 @@ CineFile is a web application that hosts a network of users who can create an in
 
 
 [**Heroku Link**](https://cinefile.herokuapp.com)
+
 For demonstration purposes of friending others on the Heroku link, feel free to search for any of the following usernames to friend on the friends page: hitchcock, kubrick, lynch, or buzz.
 
 ## Technologies
