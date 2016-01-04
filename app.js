@@ -25,7 +25,7 @@ var cheerio = require('cheerio');
 
 var moment = require('moment');
 
-var mdb = require('moviedb')('af10843e745e3689a2bdd1907d1de30f'); //add env for api number
+var mdb = require('moviedb')(process.env.API_KEY); //add env for api number
 
 var morgan = require('morgan');
 app.use(morgan('tiny'));
