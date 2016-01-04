@@ -25,7 +25,7 @@ var cheerio = require('cheerio');
 
 var moment = require('moment');
 
-var mdb = require('moviedb')(process.env.API_KEY); //add env for api number
+var mdb = require('moviedb')(process.env.API_KEY);
 
 var morgan = require('morgan');
 app.use(morgan('tiny'));
@@ -241,7 +241,7 @@ app.put('/movies/:id', function(req,res){
   //update movie details
   db.Movie.findByIdAndUpdate(req.params.id, req.body.movie, function (err, movie){
     // console.log(req.body.movie);
-    res.redirect('/movies');
+    res.redirect('/movies/' + req.params.id);
   });
 });
 

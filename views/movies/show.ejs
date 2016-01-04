@@ -14,8 +14,10 @@
     <p><strong>Year</strong>: <%= movie.year %></p>
     <p><strong>Actors</strong>: <%= movie.actors %></p>
     <p><strong>Plot</strong>: <%= movie.plot %></p>
+    <% if(movie.format.bluRay || movie.format.dvd || movie.format.vhs || movie.format.other) { %>
     <p><strong>Format</strong>: <%= movie.format.bluRay %> <%= movie.format.dvd %> <%= movie.format.vhs %> <%= movie.format.other %></p> <!-- if true, then list-->
     <!-- <p><strong>Watched</strong>: <%= movie.watched %></p> -->
+    <% } %>
     <% if(movie.notes) { %>
     <p><strong>Notes</strong>: <%= movie.notes %></p>
     <% } %>
