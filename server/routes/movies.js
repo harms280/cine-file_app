@@ -13,7 +13,7 @@ routeMiddleware = require('./middleware/routeHelper');
 //must be logged in to see any of these. Shallow routing
 
 //INDEX
-router.get('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
+router.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
  //your movie collection add new movie to collection, search for movie by title(extra???)
  db.Movie.find({owner: req.session.id}, function (err, movies) {
   movies.sort(function(a,b){
@@ -25,17 +25,17 @@ router.get('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
     }
     return 0;
   });
-  res.render('movies/index', {currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
+  res.render('/index', {currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
  });
 });
 
 //NEW
-router.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,response){
+router.get('/new', routeMiddleware.ensureLoggedIn, function(req,response){
   //add new movie to your collection, run a request for the movie title that user typed in, this will search the apis for the right movie by title, for you to select
   //when you select movie, it makes the proper requests to make movie object when you post it
   // var searchResults = [];
   if(req.query.movieSearch.length === 0) {
-    response.redirect('/movies');
+    response.redirect('/');
   }
   var titleSearch = encodeURIComponent(req.query.movieSearch);
   mdb.searchMovie({query: titleSearch}, function(err, res){
@@ -45,12 +45,12 @@ router.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,response)
       }
     });
     console.log(searchResults);
-    response.render('movies/new', {movies: searchResults, pageTitle: "Movie Search", currentUserName: currentUserName});
+    response.render('/new', {movies: searchResults, pageTitle: "Movie Search", currentUserName: currentUserName});
   });
 });
 
 //CREATE
-router.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
+router.post('/', routeMiddleware.ensureLoggedIn, function(req,res){
   //create movie in movie db
   var titleSearch = encodeURIComponent(req.body.title);
   mdb.movieInfo({id: req.body.id}, function(err, mdbRes){
@@ -76,9 +76,9 @@ router.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
           }, function (err, movie) {
             if(err) {
               console.log(err);
-              res.redirect('/movies');
+              res.redirect('/');
             } else {
-              res.redirect('/movies');
+              res.redirect('/');
             }
           });          
         });
@@ -88,7 +88,7 @@ router.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 //SHOW 
-router.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
+router.get('/:id', routeMiddleware.ensureLoggedIn, function(req,res){
   //show all movie details, slideshow of the background images, will only have option to edit if the correct user
   db.Movie.findById(req.params.id, function (err,movie) {
     
@@ -99,7 +99,7 @@ router.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 //EDIT
-router.get('/movies/:id/edit', routeMiddleware.ensureCorrectUserForMovie, function(req,res){
+router.get('/:id/edit', routeMiddleware.ensureCorrectUserForMovie, function(req,res){
   //list of info of movie, shouldn't be able to edit the title (searching etc), just notes
   db.Movie.findById(req.params.id, function (err, movie) {
     res.render('movies/edit', {pageTitle: 'Edit Movie', currentUserName: currentUserName, movie: movie});
@@ -107,23 +107,23 @@ router.get('/movies/:id/edit', routeMiddleware.ensureCorrectUserForMovie, functi
 });
 
 //UPDATE
-router.put('/movies/:id', function(req,res){
+router.put('/:id', function(req,res){
   //update movie details
   db.Movie.findByIdAndUpdate(req.params.id, req.body.movie, function (err, movie){
     // console.log(req.body.movie);
-    res.redirect('/movies/' + req.params.id);
+    res.redirect('/' + req.params.id);
   });
 });
 
 //DELETE
-router.delete('/movies/:id', routeMiddleware.ensureCorrectUserForMovie, function(req, res) {
+router.delete('/:id', routeMiddleware.ensureCorrectUserForMovie, function(req, res) {
   //delete movie from db
   db.Movie.findByIdAndRemove(req.params.id, function (err,movie) {
     if(err) {
       console.log(err);
-      res.redirect('/movies');
+      res.redirect('/');
     } else {
-      res.redirect('/movies');
+      res.redirect('/');
     }
   });
 });
