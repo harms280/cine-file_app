@@ -1,0 +1,25 @@
+{
+  "name": "cine_file",
+  "description": "",
+  "main": "server/app.js",
+  "authors": [
+    "Aaron Harms <harms280@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/harms280/cine-file_app",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-router": "^0.3.1",
+    "angular": "^1.5.7",
+    "animate.css": "^3.5.2",
+    "jquery": "^3.0.0",
+    "bootswatch": "^3.3.6+2"
+  }
+}
