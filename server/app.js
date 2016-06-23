@@ -1,37 +1,34 @@
 require('dotenv').load();
 
-var express = require('express'), app = express();
+var express = require('express'), 
+    app = express(),
+    db = require('./models'),
+    bodyParser = require("body-parser"),
+    methodOverride = require('method-override'),
+    request = require('request'),
+    cheerio = require('cheerio'),
+    session = require('cookie-session'),
+    cheerio = require('cheerio'),
+    moment = require('moment'),
+    mdb = require('moviedb')(process.env.API_KEY),
+    morgan = require('morgan'),
+    userRoutes = require('routes/users');
+    
+app.use(morgan('tiny'));
 
-var db = require('./models');
+app.use(methodOverride('_method'));
 
-var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
 
-var methodOverride = require('method-override');
-app.use(methodOverride('_method'));
+
 
 loginMiddleware = require('./middleware/loginHelper');
 routeMiddleware = require('./middleware/routeHelper');
 
-var request = require('request');
 
-var cheerio = require('cheerio');
 
-var session = require('cookie-session');
-
-var cheerio = require('cheerio');
-
-// var request = require('request');
-
-var moment = require('moment');
-
-var mdb = require('moviedb')(process.env.API_KEY);
-
-var morgan = require('morgan');
-app.use(morgan('tiny'));
-
-app.set('view engine', 'ejs');
-app.use(express.static(__dirname + '/public'));
+//app.set('view engine', 'ejs');
+app.use(express.static(__dirname + '/client'));
 
 app.use(session({ 
   maxAge: 1200000,
@@ -42,6 +39,8 @@ app.use(session({
 app.use(loginMiddleware);
 
 var currentUserName;
+
+app.use('/api/users', userRoutes);
 
 //ROUTE
 
@@ -530,8 +529,12 @@ app.delete('/rentals/:id', routeMiddleware.ensureLoggedIn, function(req,res){
 });
 
 app.get('*', function(req,res){
-  res.render('404');
-});
+    res.sendFile(path.join(__dirname, '../client', 'index.html'));
+  });
+
+// app.get('*', function(req,res){
+//   res.render('404');
+// });
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("Now listening on port 3000");
