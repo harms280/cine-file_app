@@ -12,7 +12,8 @@ var express = require('express'),
     moment = require('moment'),
     mdb = require('moviedb')(process.env.API_KEY),
     morgan = require('morgan'),
-    userRoutes = require('routes/users');
+    userRoutes = require('routes/users'),
+    movieRoutes = require('routes/movies');
     
 app.use(morgan('tiny'));
 
@@ -41,6 +42,7 @@ app.use(loginMiddleware);
 var currentUserName;
 
 app.use('/api/users', userRoutes);
+app.use('/api/movies', movieRoutes);
 
 //ROUTE
 
@@ -52,210 +54,7 @@ app.get('/about', function(req,res){
   res.render('users/about', {pageTitle: "About Page", currentUserName: currentUserName});
 });
 
-app.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-  res.render('users/login', {pageTitle: "Login Page"});
-});
-
-app.post('/login', function(req,res){
-  db.User.authenticate(req.body.user, function (err, user){
-    if(err) {
-      console.log(err);
-      res.render('users/login', {pageTitle: 'Login Page'});
-    } else if(!err && user !== null){
-      req.login(user);
-      currentUserName = user.username;
-      console.log(user.username);
-      console.log(currentUserName);
-      res.redirect('/movies');
-    }
-  });
-});
-
-app.get('/signup', routeMiddleware.preventLoginSignup, function(req,res){
-  //load signup page
-  res.render('users/signup', {pageTitle: "Signup Page"});
-});
-
-app.post('/signup', function(req,res){
-  db.User.create(req.body.user, function (err, user){
-    if(err) {
-      console.log(err);
-      res.redirect('/signup');
-    } else {
-      console.log(user);
-      req.login(user);
-      currentUserName = user.username;
-      console.log(user.username);
-      console.log(currentUserName);
-      res.redirect('/movies');
-    }
-  });
-});
-
-app.get('/logout', function(req,res){
-  req.logout();
-  currentUserName = "";
-  res.redirect('/login');
-});
-
-/********* USER ROUTES *********/
-
-//INDEX
-app.get('/users', routeMiddleware.ensureLoggedIn, function(req,res){ //main page once logged in. Call it main????
-  //shows friend acitivity, add new movie to collection, search for movie by title (in your collection or friends)
-  res.render('users/users', {currentUserName: currentUserName, pageTitle: "Main Page"});
-});
-
-
-//SHOW
-app.get('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){ 
-  //render user info and movie collection, what they are renting
-  db.User.findById(req.session.id, function (err, profile){
-    res.render('users/profile', {profile: profile, pageTitle: "Profile Page", currentUserName: currentUserName});
-  });
-});
-
-//EDIT
-app.get('/users/:id/edit', routeMiddleware.ensureLoggedIn, function(req,res){
-  //option for only the user of the page
-  db.User.findById(req.session.id, function (err, profile) {
-    res.render('users/edit', {pageTitle: "Edit User Profile", profile: profile, currentUserName: currentUserName});
-  });
-});
-
-//UPDATE
-app.put('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
-  //update user profile info (not movies or friends)
-  db.User.findByIdAndUpdate(req.params.id, req.body.user, function (err, user) {
-    console.log(user);
-    res.redirect('/users/:id');
-  });
-});
-
-//DELETE
-app.delete('/users/:id', routeMiddleware.ensureLoggedIn, function(req,res){
-  //delete user, make sure to delete the array of movies too using the special remove
-});
-
 /********* MOVIE ROUTES *********/
-
-//must be logged in to see any of these. Shallow routing
-
-//INDEX
-app.get('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
- //your movie collection add new movie to collection, search for movie by title(extra???)
- db.Movie.find({owner: req.session.id}, function (err, movies) {
-  movies.sort(function(a,b){
-    if(a.title > b.title) {
-      return 1;
-    }
-    if(a.title < b.title) {
-      return -1;
-    }
-    return 0;
-  });
-  res.render('movies/index', {currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
- });
-});
-
-//NEW
-app.get('/movies/new', routeMiddleware.ensureLoggedIn, function(req,response){
-  //add new movie to your collection, run a request for the movie title that user typed in, this will search the apis for the right movie by title, for you to select
-  //when you select movie, it makes the proper requests to make movie object when you post it
-  // var searchResults = [];
-  if(req.query.movieSearch.length === 0) {
-    response.redirect('/movies');
-  }
-  var titleSearch = encodeURIComponent(req.query.movieSearch);
-  mdb.searchMovie({query: titleSearch}, function(err, res){
-    var searchResults =  res.results.filter(function(el,i) {
-      if(i<5) {
-        return el;
-      }
-    });
-    console.log(searchResults);
-    response.render('movies/new', {movies: searchResults, pageTitle: "Movie Search", currentUserName: currentUserName});
-  });
-});
-
-//CREATE
-app.post('/movies', routeMiddleware.ensureLoggedIn, function(req,res){
-  //create movie in movie db
-  var titleSearch = encodeURIComponent(req.body.title);
-  mdb.movieInfo({id: req.body.id}, function(err, mdbRes){
-    console.log("mdb result", mdbRes);
-    request('http://www.omdbapi.com/?t='+ titleSearch, function (err,response,data){
-      if(!err && response.statusCode === 200) {
-        var omdbMovie = JSON.parse(data);
-        // console.log(omdbMovie);
-        request('https://api.themoviedb.org/3/movie/'+ req.body.id +'/images?api_key='+ process.env.API_KEY +'&language=en&include_image_language=en,null', function (err, response, result){
-          var images = JSON.parse(result);
-          console.log("These are the images", images.backdrops);
-          db.Movie.create({
-            owner: req.session.id,
-            title: mdbRes.title,
-            director: omdbMovie.Director,
-            year: omdbMovie.Year,
-            actors: omdbMovie.Actors,
-            plot: omdbMovie.Plot,
-            poster: "https://image.tmdb.org/t/p/original"+mdbRes.poster_path,
-            thumbnailPoster: omdbMovie.Poster,
-            dateAdded: moment().format('LL'),
-            backgroundImages: images.backdrops.splice(0,5),
-          }, function (err, movie) {
-            if(err) {
-              console.log(err);
-              res.redirect('/movies');
-            } else {
-              res.redirect('/movies');
-            }
-          });          
-        });
-      }
-    });
-  });
-});
-
-//SHOW 
-app.get('/movies/:id', routeMiddleware.ensureLoggedIn, function(req,res){
-  //show all movie details, slideshow of the background images, will only have option to edit if the correct user
-  db.Movie.findById(req.params.id, function (err,movie) {
-    
-    var title = encodeURIComponent(movie.title);
-    res.render('movies/show', {movie:movie, title: title, pageTitle: "Movie Details", currentUserName: currentUserName});
-  });
-
-});
-
-//EDIT
-app.get('/movies/:id/edit', routeMiddleware.ensureCorrectUserForMovie, function(req,res){
-  //list of info of movie, shouldn't be able to edit the title (searching etc), just notes
-  db.Movie.findById(req.params.id, function (err, movie) {
-    res.render('movies/edit', {pageTitle: 'Edit Movie', currentUserName: currentUserName, movie: movie});
-  });
-});
-
-//UPDATE
-app.put('/movies/:id', function(req,res){
-  //update movie details
-  db.Movie.findByIdAndUpdate(req.params.id, req.body.movie, function (err, movie){
-    // console.log(req.body.movie);
-    res.redirect('/movies/' + req.params.id);
-  });
-});
-
-//DELETE
-app.delete('/movies/:id', routeMiddleware.ensureCorrectUserForMovie, function(req, res) {
-  //delete movie from db
-  db.Movie.findByIdAndRemove(req.params.id, function (err,movie) {
-    if(err) {
-      console.log(err);
-      res.redirect('/movies');
-    } else {
-      res.redirect('/movies');
-    }
-  });
-});
 
 
 
