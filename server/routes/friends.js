@@ -3,11 +3,11 @@ var express = require('express'),
     db = require('../models'),
     // jwt = require('jsonwebtoken'), //don't need this because it's in token library
     //auth = require('../middleware/auth'),
-    tokenLib = require('../lib/token'),
+    // tokenLib = require('../lib/token'),
     token;
 
-loginMiddleware = require('./middleware/loginHelper');
-routeMiddleware = require('./middleware/routeHelper');
+loginMiddleware = require('../middleware/loginHelper');
+routeMiddleware = require('../middleware/routeHelper');
 
 //shallow routes for user
 

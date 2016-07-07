@@ -1,13 +1,12 @@
 var express = require('express'),
   router = express.Router(),
   db = require('../models'),
-  auth = require('../middleware/auth');
+  //auth = require('../middleware/auth');
   // tokenLib = require('../lib/token'),
   // token;
 
-loginMiddleware = require('./middleware/loginHelper');
-routeMiddleware = require('./middleware/routeHelper');
-
+loginMiddleware = require('../middleware/loginHelper');
+routeMiddleware = require('../middleware/routeHelper');
 
 router.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
   res.render('users/login', {pageTitle: "Login Page"});
@@ -145,4 +144,5 @@ router.delete('/:id', auth.checkToken, function(req,res){
 module.exports = router;
 
 */
+
 module.exports = router;

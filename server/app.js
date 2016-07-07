@@ -6,16 +6,15 @@ var express = require('express'),
     bodyParser = require("body-parser"),
     methodOverride = require('method-override'),
     request = require('request'),
-    cheerio = require('cheerio'),
     session = require('cookie-session'),
-    cheerio = require('cheerio'),
+    // cheerio = require('cheerio'), // find way to scrap websites better, maybe with headless browser?
     moment = require('moment'),
     mdb = require('moviedb')(process.env.API_KEY),
     morgan = require('morgan'),
-    userRoutes = require('routes/users'),
-    movieRoutes = require('routes/movies').
-    friendRoutes = require('routes/friends'),
-    rentalRoutes = require('routes/rentals');
+    userRoutes = require('./routes/users'),
+    movieRoutes = require('./routes/movies'),
+    friendRoutes = require('./routes/friends'),
+    rentalRoutes = require('./routes/rentals');
     
 app.use(morgan('tiny'));
 
