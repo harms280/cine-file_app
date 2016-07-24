@@ -1,10 +1,14 @@
 var app = angular.module('cineFile', ['ngRoute']);
 
-app.config(function($stateProvider,$urlRouterProvider,$locationProvider) {
+app.config('$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,$locationProvider,$httpProvider) {
 
-  $urlRouterProvider.otherwise('/login');
+  $routeProvider
+  .when('/login', {
+    templateUrl: 'templates/users/login.html',
+    controller: 'UsersController',
+    preventWhenLoggedIn: true
+  })
+  .otherwise({redirectTo: 'login'});
 
-  $stateProvider
-    .state('')
 
 });

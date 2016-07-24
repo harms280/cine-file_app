@@ -57,6 +57,7 @@
         </form> -->
         <ul class="nav navbar-nav navbar-right">
         <!-- FIX THIS TO ANGULAR!!! -->
+        <!--
           <% if(user_id != null) { %>
             <p class="navbar-text">Logged in as: <strong><%= currentUserName %></strong></p>
             <li><a href="/about">About</a></li>
@@ -66,6 +67,7 @@
             <li><a href="/about">About</a></li>
             <li><a href="/login">Login</a></li>
             <% } %>
+            -->
           <!-- <li><a href="/contact">Contact</a></li> -->
         </ul>
       </div><!-- /.navbar-collapse -->
@@ -74,14 +76,12 @@
 
   <div ng-view></div>
 
-
-<!-- <% } else if (pageTitle === "About Page"){ %> -->
-<!-- <body id="aboutPage"> -->
-<!-- <% } else {%> -->
-<!-- <body> -->
-<!-- <% } %> -->
-
-
-<!-- footer -->
+  <script type="text/javascript" src="./libs/angular/angular.js"></script>
+  <script type="text/javascript" src="./libs/angular-route/angular-route.js"></script>
+  <script type="text/javascript" src="./libs/angular-animate"></script>
+  <script type="text/javascript" src="./js/app.js"></script>
+  <script type="text/javascript" src="./js/services.js"></script>
+  <script type="text/javascript" src="./libs/moment/moment.js"></script> <!-- use the Angular version? -->
+  <script type="text/javascript" src="./js/controllers.js"></script>
 </body>
 </html>
