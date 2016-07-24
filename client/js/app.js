@@ -1,6 +1,6 @@
 var app = angular.module('cineFile', ['ngRoute']);
 
-app.config('$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,$locationProvider,$httpProvider) {
+app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($routeProvider,$locationProvider,$httpProvider) {
 
   $routeProvider
   .when('/login', {
@@ -11,4 +11,4 @@ app.config('$routeProvider', '$locationProvider', '$httpProvider', function($rou
   .otherwise({redirectTo: 'login'});
 
 
-});
+}]);

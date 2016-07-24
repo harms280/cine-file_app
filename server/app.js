@@ -3,6 +3,7 @@ require('dotenv').load();
 var express = require('express'), 
     app = express(),
     db = require('./models'),
+    path = require('path'),
     bodyParser = require("body-parser"),
     methodOverride = require('method-override'),
     request = require('request'),
@@ -25,7 +26,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 loginMiddleware = require('./middleware/loginHelper');
 routeMiddleware = require('./middleware/routeHelper');
 
-app.use(express.static(__dirname + '/client'));
+app.use('/css', express.static(path.join(__dirname, '../client/css')));
+app.use('/js', express.static(path.join(__dirname, '../client/js')));
+app.use('/templates', express.static(path.join(__dirname, '../client/js/templates')));
+app.use('/libs', express.static(path.join(__dirname, '../client/libs')));
+app.use('/pics', express.static(path.join(__dirname, '../client/pics')));
 
 app.use(session({ 
   maxAge: 1200000,
