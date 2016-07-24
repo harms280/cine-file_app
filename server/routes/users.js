@@ -8,43 +8,25 @@ var express = require('express'),
 loginMiddleware = require('../middleware/loginHelper');
 routeMiddleware = require('../middleware/routeHelper');
 
-router.get('/login', routeMiddleware.preventLoginSignup, function(req,res){
-  res.render('users/login', {pageTitle: "Login Page"});
-});
-
 router.post('/login', function(req,res){
   db.User.authenticate(req.body.user, function (err, user){
-    if(err) {
-      console.log(err);
-      res.render('users/login', {pageTitle: 'Login Page'});
-    } else if(!err && user !== null){
-      req.login(user);
-      currentUserName = user.username;
-      console.log(user.username);
-      console.log(currentUserName);
-      res.redirect('/movies');
-    }
+    if(err) return res.status(400).send(err);
+    if(!user) return res.status(400).send({error: "Username/password invalid"});
+    req.login(user); //session? replace with token?
+    var listedItems = {id: user.id, username: user.username};
+    res.json(listedItems);
+    //res.redirect('/movies');
   });
-});
-
-router.get('/signup', routeMiddleware.preventLoginSignup, function(req,res){
-  //load signup page
-  res.render('users/signup', {pageTitle: "Signup Page"});
 });
 
 router.post('/signup', function(req,res){
   db.User.create(req.body.user, function (err, user){
-    if(err) {
-      console.log(err);
-      res.redirect('/signup');
-    } else {
-      console.log(user);
-      req.login(user);
-      currentUserName = user.username;
-      console.log(user.username);
-      console.log(currentUserName);
-      res.redirect('/movies');
-    }
+    debugger;
+    if(err) return res.status(400).send("Username/Password can't be blank. Username must be unique");
+    req.login(user); //session? replace with token?
+    var listedItems = {id: user._id, username: user.username};
+    res.json(listedItems);
+    //res.redirect('/movies');
   });
 });
 
