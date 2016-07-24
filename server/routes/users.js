@@ -21,7 +21,6 @@ router.post('/login', function(req,res){
 
 router.post('/signup', function(req,res){
   db.User.create(req.body.user, function (err, user){
-    debugger;
     if(err) return res.status(400).send("Username/Password can't be blank. Username must be unique");
     req.login(user); //session? replace with token?
     var listedItems = {id: user._id, username: user.username};
