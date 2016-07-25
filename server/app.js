@@ -2,6 +2,7 @@ require('dotenv').load();
 
 var express = require('express'), 
     app = express(),
+    compression = require('compression'),
     db = require('./models'),
     path = require('path'),
     bodyParser = require("body-parser"),
@@ -25,6 +26,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 loginMiddleware = require('./middleware/loginHelper');
 routeMiddleware = require('./middleware/routeHelper');
+
+//compress static files with gzip
+app.use(compression());
 
 app.use('/css', express.static(path.join(__dirname, '../client/css')));
 app.use('/js', express.static(path.join(__dirname, '../client/js')));
