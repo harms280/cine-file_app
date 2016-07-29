@@ -4,6 +4,7 @@ app.service('UserService',['$http','$window', function($http,$window){
       return $http.post('/api/users/signup', user);
     },
     login: function(user) {
+      console.log('this is user', user);
       return $http.post('/api/users/login', user);
     },
     setCurrentUser: function(data) {

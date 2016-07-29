@@ -9,7 +9,8 @@ loginMiddleware = require('../middleware/loginHelper');
 routeMiddleware = require('../middleware/routeHelper');
 
 router.post('/login', function(req,res){
-  db.User.authenticate(req.body.user, function (err, user){
+    console.log('In Login',req.body);
+  db.User.authenticate(req.body, function (err, user){
     if(err) return res.status(400).send(err);
     if(!user) return res.status(400).send({error: "Username/password invalid"});
     req.login(user); //session? replace with token?
@@ -20,7 +21,8 @@ router.post('/login', function(req,res){
 });
 
 router.post('/signup', function(req,res){
-  db.User.create(req.body.user, function (err, user){
+  console.log('This is req.body', req.body);
+  db.User.create(req.body, function (err, user){
     if(err) return res.status(400).send("Username/Password can't be blank. Username must be unique");
     req.login(user); //session? replace with token?
     var listedItems = {id: user._id, username: user.username};

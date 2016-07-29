@@ -1,3 +1,4 @@
+<h1>{{errors}}</h1>
 <div class="container">
   <div id="signupJumbo" class="jumbotron">
     <form  name="signupForm" ng-submit="signup(user)" novalidate>
@@ -6,18 +7,20 @@
         <input type="text" ng-model="user.username" id="username" name="username" class="form-control" ng-minlength="3" ng-maxlength="12" ng-required="true" autofocus>
         <span ng-show="signupForm.username.$invalid && signupForm.username.$dirty" class="help-block">Enter valid username</span>
       </div>
-      <div ng-class="{'form-group': true, 'has-error': signupForm.password.$invalid && signupForm.password.$dirty, 'has-success': signupForm.password.$valid && singupForm.password.$dirty}">
+      <div ng-class="{'form-group': true, 'has-error': signupForm.password.$invalid && signupForm.password.$dirty, 'has-success': signupForm.password.$valid && signupForm.password.$dirty}">
         <label for="password" class="control-label">Password:</label>
         <input type="password" ng-model="user.password" id="password" name="password" class="form-control"  ng-minlength="3" ng-maxlength="12" ng-required="true">
-        <span ng-show="signupForm.passowrd.$invalid && signupForm.password.$dirty" class="help-block">Enter valid password</span>
+        <span ng-show="signupForm.password.$invalid && signupForm.password.$dirty" class="help-block">Enter valid password</span>
       </div>
-      <div class="form-group">
-        <label for="avatar">Avatar:</label>
+      <div ng-class="{'form-group': true, 'has-error': signupForm.avatar.$invalid && signupForm.avatar.$dirty, 'has-success': signupForm.avatar.$valid && signupForm.avatar.$dirty}">
+        <label for="avatar" class="control-label">Avatar:</label>
         <input type="url" ng-model="user.avatar" id="avatar" name="avatar" class="form-control" placeholder="Enter Avatar URL">
+        <span ng-show="signupForm.avatar.$invalid && signupForm.avatar.$dirty" class="help-block">Enter valid URL</span>
       </div>
-      <div class="form-group">
+      <div ng-class="{'form-group': true, 'has-error': signupForm.email.$invalid && signupForm.email.$dirty, 'has-success': signupForm.email.$valid && signupForm.email.$dirty}">
         <label for="email">Email:</label>
         <input type="email" ng-model="user.email" id="email" name="email" class="form-control" placeholder="Enter Email">
+        <span ng-show="signupForm.email.$invalid && signupForm.email.$dirty" class="help-block">Enter valid email</span>
       </div>
       <div class="form-group">
         <label for="firstName">First Name:</label>
@@ -39,5 +42,14 @@
       <a href="/" class="btn btn-danger pull-right">Cancel</a>
     </form>
   </div>
-
 </div>
+
+<style type="text/css">
+  body {
+    background: url('../pics/strangelove_splash.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  
+  }
+</style>

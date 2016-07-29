@@ -25,7 +25,7 @@ router.get('/', routeMiddleware.ensureLoggedIn, function(req,res){
     }
     return 0;
   });
-  res.render('/index', {currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
+  res.json({currentUserName: currentUserName, pageTitle: "Personal Movie Collection", movies: movies});
  });
 });
 

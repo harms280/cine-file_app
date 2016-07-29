@@ -1,13 +1,13 @@
 <div class="container">
   <div id="loginJumbo" class="jumbotron animated fadeInUp">
-    <form method="POST" action="/login" >
+    <form name="loginForm" ng-submit="login(user)" >
       <div class="form-group">
         <label for="username"> Username:</label>
-        <input type="text" id="username" name="user[username]" class="form-control" autofocus>
+        <input type="text" ng-model="user.username" id="username" name="username" class="form-control" autofocus>
       </div>
       <div class="form-group">
         <label for="password"> Password:</label>
-        <input type="password" id="password" name="user[password]" class="form-control">
+        <input type="password" ng-model="user.password" id="password" name="password" class="form-control">
       </div>
       <input type="submit" value="Login" class="btn btn-primary">
       <p class="pull-right"><a href="/signup">Not a user? Sign Up</a></p>

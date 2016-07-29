@@ -5,7 +5,7 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
   $routeProvider
   .when('/login', {
     templateUrl: 'templates/users/login.html',
-    controller: 'UsersController',
+    controller: 'LoginController',
     preventWhenLoggedIn: true
   })
   .when('/signup', {
@@ -14,6 +14,17 @@ app.config(['$routeProvider', '$locationProvider', '$httpProvider', function($ro
     preventWhenLoggedIn: true,
     signup: true
   })
+  .when('/about', {
+    templateUrl: 'templates/users/about.html'
+  })
+
+  //movie routes
+  .when('/movies', {
+    templateUrl: 'templates/movies/index.html',
+    restricted: true,
+    controller: 'MovieController'
+  })
+
   .otherwise({redirectTo: 'login'});
 
   $locationProvider.html5Mode(true);
