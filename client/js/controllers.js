@@ -23,6 +23,7 @@ app.controller('SignupController',['$scope','UserService','$location', function(
   $scope.errors;
 
   $scope.signup = function(user) {
+    var city = document.getElementById('city').value;
     UserService.signup(user).then(function(data) {
       UserService.setCurrentUser(data);
       // $scope.loggedIn.status = true;
@@ -30,8 +31,8 @@ app.controller('SignupController',['$scope','UserService','$location', function(
       $location.path('/movies');
     }).catch(function(data) {
       $scope.errors = data.data;
-      $scope.user = {};
-      $scope.signupForm.$setPristine();
+      //$scope.user = {};
+      //$scope.signupForm.$setPristine();
     });
   };
 
